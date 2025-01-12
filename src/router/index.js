@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import PrivacyPolicy from '@/Components/PrivacyPolicy.vue';
 import App from '@/App.vue';
 
 const routes = [
