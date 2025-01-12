@@ -11,6 +11,7 @@ const routes = [
     path: '/privacy-policy',
     name: 'PrivacyPolicy',
     component: () => import('@/components/PrivacyPolicy.vue'), 
+},
 ];
 
 const router = createRouter({
