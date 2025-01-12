@@ -1,11 +1,10 @@
 module.exports = {
-    content: [
-      "./index.html",               // Ensure it matches your project structure
-      "./src/**/*.{vue,js,ts,jsx,tsx}",
-    ],
-    theme: {
-      extend: {},                    // Add customizations here if needed
-    },
-    plugins: [],                     // Add Tailwind plugins here if any
-  };
-  
+  content: [
+    "./index.html",                 // Match the root index.html
+    './src/**/*.{vue,js,ts}'
+  ],
+  theme: {
+    extend: {},                      // Add customizations here if needed
+  },
+  plugins: [],                       // Add any Tailwind plugins here if required
+};

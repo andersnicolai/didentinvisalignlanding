@@ -28,22 +28,22 @@
           class="hidden sm:flex flex-row gap-4 sm:gap-8 text-gray-700 font-semibold items-center"
       >
         <li>
-          <a href="#" class="text-black hover:text-green-600 transition duration-300">
+          <a href="#how-it-works" class="text-black hover:text-green-600 transition duration-300">
             Hvordan det fungerer
           </a>
         </li>
         <li>
-          <a href="#" class="text-black hover:text-green-600 transition duration-300">
+          <a href="#about-us" class="text-black hover:text-green-600 transition duration-300">
             Om oss
           </a>
         </li>
         <li>
-          <a href="#" class="text-black hover:text-green-600 transition duration-300">
+          <a href="#pricing" class="text-black hover:text-green-600 transition duration-300">
             Priser
           </a>
         </li>
         <li>
-          <a href="#" class="text-black hover:text-green-600 transition duration-300">
+          <a href="#faq" class="text-black hover:text-green-600 transition duration-300">
             Spørsmål og svar
           </a>
         </li>
@@ -113,90 +113,78 @@
         <ul class="flex flex-col items-center justify-center space-y-8 text-white font-semibold text-xl">
           <li>
             <a
-                href="#"
+                href="#how-it-works"
                 class="text-white hover:text-green-600 transition duration-300"
+                @click="closeMenu"
             >
               Hvordan det fungerer
             </a>
           </li>
           <li>
             <a
-                href="#"
+                href="#about-us"
                 class="text-white hover:text-green-600 transition duration-300"
+                @click="closeMenu"
             >
               Om oss
             </a>
           </li>
           <li>
             <a
-                href="#"
+                href="#pricing"
                 class="text-white hover:text-green-600 transition duration-300"
+                @click="closeMenu"
             >
               Priser
             </a>
           </li>
           <li>
             <a
-                href="#"
+                href="#faq"
                 class="text-white hover:text-green-600 transition duration-300"
+                @click="closeMenu"
             >
               Spørsmål og svar
             </a>
           </li>
         </ul>
-
-        <!-- Mobile CTA Button -->
-        <div class="mt-12">
-          <button class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full">
-            Book gratis konsultasjon
-          </button>
-        </div>
-
-        <!-- Additional Details -->
-        <div class="mt-8 text-white text-center space-y-4">
-          <p class="text-lg">Besøk oss</p>
-          <p>Stavangergata 44b</p>
-          <p>0467 Oslo</p>
-          <p>
-            Telefon:
-            <a href="tel:+4794095643" class="hover:text-green-500">940 95 643</a>
-          </p>
-          <p>info@dident.no</p>
-        </div>
       </div>
     </div>
   </header>
-
-  <!-- Modal -->
-  <HighLevelFormModal ref="formModal" />
 </template>
 
 <script setup>
-// Import assets directly
+import { ref } from "vue";
 import logoVideo from "@/assets/videos/logo.mp4";
 import logoImage from "@/assets/images/logo/DiDent-logo-A1-e1733310238845.jpg";
-import HighLevelFormModal from "@/components/FormModal.vue"; // Import the form modal component
 
-// State to manage menu visibility
-import { ref } from "vue";
 const isMenuOpen = ref(false);
 
-// Handle button click to open the form modal
-const formModal = ref(null);
+// Open modal
 const handleClick = () => {
-  console.log("Button clicked!");
-  formModal.value.open(); // Open the modal
+  console.log("Modal opened!");
 };
 
-// Toggle menu visibility
+// Toggle the menu visibility
 const toggleMenu = () => {
   isMenuOpen.value = !isMenuOpen.value;
   document.body.style.overflow = isMenuOpen.value ? "hidden" : "";
 };
+
+// Close the menu when a link is clicked
+const closeMenu = () => {
+  isMenuOpen.value = false;
+  document.body.style.overflow = "";
+};
 </script>
 
 <style scoped>
-/* Fullscreen Sliding Menu */
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Mobile menu transition */
 .translate-x-full {
   transform: translateX(100%);
 }
@@ -206,6 +194,6 @@ const toggleMenu = () => {
 
 /* Dark blue background */
 .bg-dark-blue {
-  background-color: #001f3f; /* Replace with your preferred dark blue color */
+  background-color: #001f3f;
 }
 </style>

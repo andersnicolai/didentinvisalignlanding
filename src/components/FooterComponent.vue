@@ -14,7 +14,7 @@
         <p><strong>Kontakt oss</strong></p>
         <p>Email: <a href="mailto:info@dident.no" class="hover:text-green-500">info@dident.no</a></p>
         <p>Telefon: <a href="tel:+4794095643" class="hover:text-green-500">940 95 643</a></p>
-        <p><strong>Organisasjonsnummer:</strong> 123 456 789</p>
+        <p><strong>Organisasjonsnummer:</strong> 933 203 719</p>
       </div>
       <div class="flex flex-wrap justify-center space-x-6 mb-4">
         <div>
@@ -41,6 +41,11 @@
       </div>
   
       <p class="mt-4">&copy; 2025 Dident. All Rights Reserved.</p>
+            <router-link to="/privacy-policy" class="hover:text-green-500">
+        Personvernerklæring
+      </router-link>
+
+
     </div>
   </footer>
 </template>

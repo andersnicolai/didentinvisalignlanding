@@ -1,11 +1,13 @@
+
 <template>
-  <!-- First Section (Video Section) -->
-<div class="w-full h-screen">
+  <!-- Main Wrapper -->
+  <div class="w-full h-screen">
+    <!-- Video Section -->
     <div class="relative">
       <VideoSection />
     </div>
 
-    <!-- Notification and Menu (Overlays the video) -->
+    <!-- Notification and Menu -->
     <div class="absolute inset-0 z-10">
       <div class="mt-safe">
         <NotificationPane
@@ -20,49 +22,44 @@
         />
       </div>
     </div>
+
+    <!-- Scrollable Sections -->
+    <div id="how-it-works" class="scroll-section">
+      <HeroSectionClient />
+    </div>
+    <div id="about-us" class="scroll-section">
+      <Bonus />
+    </div>
+    <div id="pricing" class="scroll-section">
+      <PricingSection />
+    </div>
+    <div id="faq" class="scroll-section">
+      <FaqComponent />
+    </div>
+    <div id="clinic-showcase" class="scroll-section">
+      <ClinicShowcase />
+    </div>
+    <div id="footer" class="scroll-section">
+      <FooterComponent />
+    </div>
+
+    <!-- Router View -->
+    <router-view />
+    
+    <!-- Cookie Consent -->
+    <CookieConsent />
+    <div id="cookie-declaration"></div>
   </div>
-
-  <!-- Second Section -->
-  <div class="scroll-section">
-    <HeroSectionClient />
-  </div>
-
-  <div class="scroll-section">
-    <Bonus />
-  </div>
-
-  <div class="scroll-section">
-    <SecondVideoTeaser />
-  </div>
-
-  <div class="scroll-section">
-    <StarReviews />
-  </div>
-
-  <div class="scroll-section">
-    <PricingSection />
-    <FaqComponent />
-  </div>
-
-
-
-  <div class="scroll-section">
-    <ClinicShowcase />
-  </div>
-
-
-  <div class="scroll-section">
-
-    <FooterComponent />
-  </div>
-  <CookieConsent />
-
-  <!-- Cookie Declaration Script -->
-  <div id="cookie-declaration"></div>
 </template>
 
+
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
+import { computed, onMounted, onUnmounted } from 'vue'; // Import onMounted and onUnmounted
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const isHomePage = computed(() => route.path === '/'); // Determine if the current route is the homepage
+
 import NotificationPane from "@/components/NotificationPane.vue";
 import AppHeader from "@/components/AppHeader.vue";
 import VideoSection from "@/components/VideoSection.vue";
@@ -74,13 +71,15 @@ import PricingSection from "@/components/PricingSection.vue";
 import CookieConsent from "./components/CookieConsent.vue";
 import FaqComponent from "./components/FaqComponent.vue";
 import ClinicShowcase from "./components/ClinicShowcase.vue";
-import logoVideo from "@/assets/videos/logo.mp4";
 import FooterComponent from './components/FooterComponent.vue';
+
+import logoVideo from "@/assets/videos/logo.mp4";
 
 const logoImage = "@/assets/images/logo/DiDent-logo-A1-e1733310238845.jpg";
 const notificationMessage = "Get your free consultation now!";
 const notificationButtonText = "Close";
 
+// Intersection Observer for Scroll Animations
 function setupScrollAnimation() {
   const observer = new IntersectionObserver(
     (entries) => {
