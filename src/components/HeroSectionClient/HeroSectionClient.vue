@@ -67,6 +67,8 @@
           {{ buttonText }}
         </button>
       </div>
+
+      
     </div>
 
     <HighLevelFormModal ref="formModal" />

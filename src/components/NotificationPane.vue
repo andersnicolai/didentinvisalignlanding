@@ -1,21 +1,31 @@
 <template>
   <div
-      v-if="isVisible"
-      id="notification-pane"
-      class="fixed top-0 left-0 w-full bg-custom-gold text-white py-1 px-2 shadow-lg z-50"
+    v-if="isVisible"
+    id="notification-pane"
+    :class="[
+      isHighlight ? 'bg-highlight' : 'bg-custom-gold',
+      'text-white',
+      'py-1',
+      'px-2',
+      'shadow-lg',
+      'z-50',
+      'transition-all',
+      'duration-500'
+    ]"
   >
     <div class="container mx-auto flex justify-between items-center">
       <!-- Notification Message -->
-      <h1 class="text-xs sm:text-sm font-bold">{{ message }}</h1>
+      <h1 class="text-xs sm:text-sm font-bold">
+        {{ message }}
+      </h1>
 
       <!-- Notification Button -->
       <button
-          @click="handleClick"
-          class="bg-gray-800 text-white font-bold py-1 px-2 rounded hover:bg-gray-900 transition"
+        @click="handleClick"
+        class="bg-gray-800 text-white font-bold py-1 px-2 rounded hover:bg-gray-900 transition"
       >
         {{ buttonText }}
       </button>
-
     </div>
     <HighLevelFormModal ref="formModal" />
   </div>
@@ -23,14 +33,17 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
+
 const formModal = ref(null);
 import HighLevelFormModal from "@/components/FormModal.vue";
 
-
 // State variables
-const isVisible = ref(true); // Controls notification visibility
+const isVisible = ref(true); // Controls visibility
+const isHighlight = ref(false); // Controls highlight state
 const message = ref("Transform Your Smile with Invisalign – Book a Free Consultation Now!");
 const buttonText = ref("Gratis Konsultasjon");
+
+// Existing facts array
 const facts = [
   "Invisalign er usynlig og komfortabel. 😁",
   "Bruker skreddersydde aligners for å rette tennene. 🦷",
@@ -44,21 +57,51 @@ const facts = [
   "Populært blant kjendiser og influencere. 🎬",
 ];
 
+// New locations and messages for orders
+const locations = ["Oslo", "Stovner", "Bergen", "Trondheim", "Drammen"];
+const orderMessages = [
+  "Fra {{location}} har noen nettopp bestilt en gratis konsultasjon! 🎉",
+  "Ny bestilling fra {{location}} – Se transformasjonen nå! 🌟",
+  "Kunde fra {{location}} har booket en time! 🦷",
+];
 
-
-// Define handleClick at the top level
+// Function to handle click
 const handleClick = () => {
-  console.log("Button clicked!");
   formModal.value.open();
-  // Add logic for what happens when the button is clicked
 };
 
-
-
-
-// Set random initial message
-onMounted(() => {
+// Function to set a random fact
+const setRandomFact = () => {
   message.value = facts[Math.floor(Math.random() * facts.length)];
+};
+
+// Function to set a new order message with location
+const setOrderMessage = () => {
+  const location = locations[Math.floor(Math.random() * locations.length)];
+  const randomOrderMessage = orderMessages[Math.floor(Math.random() * orderMessages.length)];
+  message.value = randomOrderMessage.replace("{{location}}", location);
+
+  // Highlight notification
+  isHighlight.value = true;
+
+  // Reset highlight after 5 seconds
+  setTimeout(() => {
+    isHighlight.value = false;
+  }, 5000);
+};
+
+// Initialize messages on mount
+onMounted(() => {
+  setRandomFact();
+
+  // Alternate between facts and order messages every 10 seconds
+  setInterval(() => {
+    if (Math.random() > 0.5) {
+      setRandomFact();
+    } else {
+      setOrderMessage();
+    }
+  }, 10000);
 });
 </script>
 
@@ -66,10 +109,28 @@ onMounted(() => {
 /* Notification Pane */
 #notification-pane {
   background-color: #c6a016; /* Custom gold */
+  animation: slideDown 0.5s ease-in-out;
 }
 
-/* Button Styling */
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* Highlight State */
+.bg-highlight {
+  background-color: #ff6347; /* Tomato Red */
+}
+
 .bg-custom-gold {
   background-color: #f8c102;
+}
+
+button:hover {
+  background-color: #d4a40f;
 }
 </style>

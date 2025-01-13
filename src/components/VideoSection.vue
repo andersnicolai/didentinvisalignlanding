@@ -137,7 +137,7 @@ onBeforeUnmount(() => {
 /* Adjust height for larger screens */
 @media screen and (min-width: 368px) {
   .text-overlay {
-    height: 40%;
+    height: 50%;
     top: 80%;
   }
 }
@@ -187,5 +187,12 @@ onBeforeUnmount(() => {
   }
 }
 
+/* Adjust height for larger screens */
+@media screen and (min-width: 344px) {
+  .text-overlay {
+    height: 50%;
+    top: 80%;
+  }
+}
 
 </style>
