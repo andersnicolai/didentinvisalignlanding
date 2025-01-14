@@ -4,23 +4,23 @@
       <div class="modal-content">
         <!-- Embed HighLevel Form -->
         <iframe
-          v-show="!isLoading"
-          @load="onIframeLoad"
-          src="https://link.onedevconsultancy.com/widget/form/sLWh3xv4s7jOAOxuBWsr"
-          style="width:100%;height:100%;border:none;border-radius:20px"
-          id="inline-sLWh3xv4s7jOAOxuBWsr" 
-          data-layout="{'id':'INLINE'}"
-          data-trigger-type="alwaysShow"
-          data-trigger-value=""
-          data-activation-type="alwaysActivated"
-          data-activation-value=""
-          data-deactivation-type="neverDeactivate"
-          data-deactivation-value=""
-          data-form-name="Invisalign"
-          data-height="692"
-          data-layout-iframe-id="inline-sLWh3xv4s7jOAOxuBWsr"
-          data-form-id="sLWh3xv4s7jOAOxuBWsr"
-          title="Invisalign"
+            v-show="!isLoading"
+            @load="onIframeLoad"
+            src="https://link.onedevconsultancy.com/widget/form/sLWh3xv4s7jOAOxuBWsr"
+            style="width:100%;height:100%;border:none;border-radius:20px"
+            id="inline-sLWh3xv4s7jOAOxuBWsr"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="Invisalign"
+            data-height="692"
+            data-layout-iframe-id="inline-sLWh3xv4s7jOAOxuBWsr"
+            data-form-id="sLWh3xv4s7jOAOxuBWsr"
+            title="Invisalign"
         ></iframe>
 
         <!-- Loading spinner -->
@@ -39,10 +39,22 @@ export default {
     const visible = ref(false);
     const isLoading = ref(true);
 
+    // Open the modal and track the event
     const open = () => {
       visible.value = true;
+
+      // Track Meta Pixel event when the form modal opens
+      if (window.fbq) {
+        fbq('track', 'FormOpen', {
+          formName: 'Invisalign',
+          category: 'Engagement'
+        });
+      } else {
+        console.error("Facebook Pixel (fbq) not loaded correctly");
+      }
     };
 
+    // Close the modal
     const close = () => {
       visible.value = false;
       isLoading.value = true;
@@ -107,19 +119,3 @@ export default {
   width: 50px;
   height: 50px;
   border: 6px solid rgba(0, 0, 0, 0.1);
-  border-top-color: #2563eb;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  align-self: center;
-  margin: auto;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-</style>

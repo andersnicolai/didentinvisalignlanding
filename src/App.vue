@@ -106,19 +106,32 @@ const notificationButtonText = "Close";
 
 const formModal = ref(null); // Reference for the modal
 
+// Fire Meta Pixel PageView event when component is mounted
+onMounted(() => {
+  // Trigger PageView event for Facebook Pixel
+  if (window.fbq) {
+    fbq('track', 'PageView');
+  } else {
+    console.error("Facebook Pixel (fbq) not loaded correctly");
+  }
+
+  // Set up scroll animation observer
+  setupScrollAnimation();
+});
+
 // Intersection Observer for Scroll Animations
 function setupScrollAnimation() {
   const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-active');
-        } else {
-          entry.target.classList.remove('animate-active');
-        }
-      });
-    },
-    { threshold: 0.1 }
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-active');
+          } else {
+            entry.target.classList.remove('animate-active');
+          }
+        });
+      },
+      { threshold: 0.1 }
   );
 
   document.querySelectorAll('.scroll-section').forEach(el => {
@@ -126,7 +139,6 @@ function setupScrollAnimation() {
   });
 }
 
-onMounted(setupScrollAnimation);
 onUnmounted(() => {
   observer.disconnect();
 });
