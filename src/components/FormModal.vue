@@ -25,6 +25,7 @@
 
         <!-- Loading spinner -->
         <div v-if="isLoading" class="loading-spinner"></div>
+
       </div>
     </div>
   </transition>
@@ -119,3 +120,6 @@ export default {
   width: 50px;
   height: 50px;
   border: 6px solid rgba(0, 0, 0, 0.1);
+}
+
+</style>
