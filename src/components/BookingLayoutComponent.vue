@@ -4,7 +4,7 @@
 
       <VideoSection
           :desktopVideoSrc="desktopVideo"
-          mobileVideoSrc="/path/to/mobile-video.mp4"
+          :mobileVideoSrc="mobileVideoSrc"
           headlineText="Bestill time og spar 57% NÅ"
           buttonLabel="Bestill nå" />
 
@@ -48,6 +48,8 @@
 
 <script setup>
 import desktopVideo from "@/assets/videos/6008132_4k Video_Blond_1920x1080.mp4";
+import mobileVideoSrc from "@/assets/videos/6008132_4k Video_Blond_1920x1080.mp4";
+
 import VideoSection from "@/components/VideoSection.vue";
 import NotificationPane from "@/components/NotificationPane.vue";
 import AppHeader from "@/components/AppHeader.vue";
