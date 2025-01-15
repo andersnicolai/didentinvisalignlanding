@@ -87,11 +87,13 @@ const handleClick = () => {
     formModal.value.open(); // This will now correctly call the open method
   }
 };
+
+import imageSrc from "@/assets/images/Invisalign-aligners2.png";
+
 const {
   sectionTitle,
   headline,
   description,
-  imageSrc,
   imageAlt,
   buttonText,
   benefits,

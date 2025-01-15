@@ -86,12 +86,13 @@ const handleClick = () => {
   }
 };
 
+import imageSrc from "@/assets/images/closeup-shot-laughing-male-model-outside-sun-rays_181624-53325.jpg";
+
 // Use the imported textData directly
 const {
   sectionTitle,
   headline,
   description,
-  imageSrc,
   imageAlt,
   buttonText,
   benefits
