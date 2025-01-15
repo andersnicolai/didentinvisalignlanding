@@ -2,13 +2,13 @@
   <div class="w-full h-screen bg-gray-900 overflow-hidden relative">
     <!-- Video -->
     <video
-      ref="videoRef"
-      autoplay
-      loop
-      muted
-      playsinline
-      preload="auto"
-      class="absolute top-0 left-0 w-full h-full object-cover z-0"
+        ref="videoRef"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="auto"
+        class="absolute top-0 left-0 w-full h-full object-cover z-0"
     >
       <source :src="currentVideo" type="video/mp4" />
       Your browser does not support the video tag.
@@ -20,78 +20,82 @@
     <!-- Text overlay -->
     <div class="text-overlay absolute inset-0 z-20 flex flex-col justify-center items-center">
       <div
-        class="diagonal-overlay w-full h-full bg-black/30 backdrop-blur-md flex flex-col justify-center py-8 px-4"
+          class="diagonal-overlay w-full h-full bg-black/30 backdrop-blur-md flex flex-col justify-center py-8 px-4"
       >
         <div class="text-center text-white max-w-2xl mx-auto pt-8">
           <p class="text-3xl md:text-4xl font-bold">
-            Forvandle smilet ditt med gjennomsiktig tannregulering
+            {{ headlineText }}
           </p>
-          <!-- Button with higher z-index -->
-
           <!-- Booking Button with higher z-index -->
           <BookingButton
-            class="relative z-30"
-            label="Book gratis konsultasjon"
-            @click="handleClick"
+              class="relative z-30"
+              :label="buttonLabel"
+              @click="handleClick"
           />
         </div>
       </div>
     </div>
     <HighLevelFormModal ref="formModal" />
-
   </div>
 </template>
 
-
-
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from "vue";
-import desktopVideo from "@/assets/videos/6037831_Person_People_1920x1080.mp4";
-import mobileVideo from "@/assets/videos/hushorts.mov";
 import BookingButton from "@/components/BookingButton.vue";
-const formModal = ref(null);
 import HighLevelFormModal from "@/components/FormModal.vue";
 
+const formModal = ref(null);
+
+const props = defineProps({
+  desktopVideoSrc: {
+    type: String,
+    required: true
+  },
+  mobileVideoSrc: {
+    type: String,
+    required: true
+  },
+  headlineText: {
+    type: String,
+    required: true
+  },
+  buttonLabel: {
+    type: String,
+    required: true
+  }
+});
+
 const videoRef = ref(null);
-const currentVideo = ref(desktopVideo);
+const currentVideo = ref(props.desktopVideoSrc);
 
-
-// Define handleClick at the top level
 const handleClick = () => {
-  console.log("Button clicked!");
-  formModal.value.open();
-  // Add logic for what happens when the button is clicked
+  if (formModal.value) {
+    formModal.value.open();
+  }
 };
-
 
 onMounted(() => {
   const updateVideoSource = () => {
-    const newVideo = window.innerWidth <= 768 ? mobileVideo : desktopVideo;
+    const newVideo = window.innerWidth <= 768 ? props.mobileVideoSrc : props.desktopVideoSrc;
     if (currentVideo.value !== newVideo) {
       currentVideo.value = newVideo;
     }
   };
 
-  // Watch for changes and reload the video element
   watch(currentVideo, () => {
     if (videoRef.value) {
-      videoRef.value.load(); // Reload the video element to apply the updated source
+      videoRef.value.load();
     }
   });
 
-  // Initial check
   updateVideoSource();
-
-  // Update video source on window resize
   window.addEventListener("resize", updateVideoSource);
 
-  // Handle autoplay setup
   if (videoRef.value) {
     videoRef.value.play().catch((error) => {
       console.warn("Autoplay prevented:", error);
     });
 
-    // Pause/play on visibility change
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         videoRef.value?.pause();
@@ -101,9 +105,6 @@ onMounted(() => {
     });
   }
 });
-
-
-
 
 onBeforeUnmount(() => {
   window.removeEventListener("resize", updateVideoSource);

@@ -30,14 +30,12 @@
     <HighLevelFormModal ref="formModal" />
   </div>
 </template>
-
 <script setup>
 import { ref, onMounted } from "vue";
-
-const formModal = ref(null);
 import HighLevelFormModal from "@/components/FormModal.vue";
 
 // State variables
+const formModal = ref(null);
 const isVisible = ref(true); // Controls visibility
 const isHighlight = ref(false); // Controls highlight state
 const message = ref("Transform Your Smile with Invisalign – Book a Free Consultation Now!");
@@ -57,12 +55,12 @@ const facts = [
   "Populært blant kjendiser og influencere. 🎬",
 ];
 
-// New locations and messages for orders
-const locations = ["Oslo", "Stovner", "Bergen", "Trondheim", "Drammen"];
+// New locations and messages for orders, only containing Oslo
+const locations = ["Oslo"];
 const orderMessages = [
-  "Fra {{location}} har noen nettopp bestilt en gratis konsultasjon! 🎉",
-  "Ny bestilling fra {{location}} – Se transformasjonen nå! 🌟",
-  "Kunde fra {{location}} har booket en time! 🦷",
+  "Fra Oslo har noen nettopp bestilt en gratis konsultasjon! 🎉",
+  "Ny bestilling fra Oslo – Se transformasjonen nå! 🌟",
+  "Kunde fra Oslo har booket en time! 🦷",
 ];
 
 // Function to handle click
@@ -77,9 +75,8 @@ const setRandomFact = () => {
 
 // Function to set a new order message with location
 const setOrderMessage = () => {
-  const location = locations[Math.floor(Math.random() * locations.length)];
   const randomOrderMessage = orderMessages[Math.floor(Math.random() * orderMessages.length)];
-  message.value = randomOrderMessage.replace("{{location}}", location);
+  message.value = randomOrderMessage;
 
   // Highlight notification
   isHighlight.value = true;
