@@ -1,36 +1,31 @@
 <template>
-  <div ref="reputationHubContainer" class="reputation-hub-widget"></div>
+  <div>
+    <iframe
+      class="lc_reviews_widget"
+      src="https://reputationhub.site/reputation/widgets/review_widget/7zGDabJudfn9AdfzT6N5"
+      frameborder="0"
+      scrolling="no"
+      style="min-width: 100%; width: 100%;"
+    ></iframe>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'ReputationHubWidget',
+  name: "ReputationHubWidget",
   mounted() {
-    // Dynamically adding the script to ensure it's executed correctly within the Vue lifecycle
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://reputationhub.site/reputation/assets/review-widget.js';
-    script.onload = this.appendIframe; // Append the iframe once the script is loaded
-    this.$refs.reputationHubContainer.appendChild(script);
+    // Dynamically inject the script
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "https://reputationhub.site/reputation/assets/review-widget.js";
+    document.body.appendChild(script);
   },
-  methods: {
-    appendIframe() {
-      // Creating the iframe dynamically after the script is loaded
-      const iframe = document.createElement('iframe');
-      iframe.className = 'lc_reviews_widget';
-      iframe.src = 'https://reputationhub.site/reputation/widgets/review_widget/7zGDabJudfn9AdfzT6N5';
-      iframe.frameBorder = '0';
-      iframe.scrolling = 'no';
-      iframe.style.minWidth = '100%';
-      iframe.style.width = '100%';
-      this.$refs.reputationHubContainer.appendChild(iframe);
-    }
-  }
-}
+};
 </script>
 
 <style scoped>
-.reputation-hub-widget {
-  min-width: 100%; /* Ensuring the container takes full width */
+.lc_reviews_widget {
+  border-radius: 8px; /* Optional styling for rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional shadow for better visibility */
 }
 </style>

@@ -1,21 +1,37 @@
 <template>
   <div>
+
     <div id="how-it-works">
       <HeroSectionClient />
     </div>
-    <Advertiser />
-    <div id="quiz">
-      <Quiz />
+
+    <div class="map-section">
+      <iframe
+          loading="lazy"
+          src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBPjyiJOIpziomjiQqiOqtB9_XKwT_YfZM&q=dident%20tannlegesenter&zoom=15"
+          title="dident tannlegesenter"
+          aria-label="dident tannlegesenter"
+          frameborder="0"
+          style="border:0; width: 100%; height: 400px;"
+          allowfullscreen
+      ></iframe>
     </div>
-    <div id="pricing">
-      <PricingSection />
-    </div>
+    
     <div id="about-us">
       <Bonus />
     </div>
-    <div id="blogger">
-      <Blogger />
+    <Advertiser />
+    <div id="pricing">
+      <PricingSection />
     </div>
+
+
+
+
+    <div id="quiz">
+      <Quiz />
+    </div>
+
     <div id="clinic-showcase">
       <ClinicShowcase />
     </div>

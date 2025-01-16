@@ -28,6 +28,7 @@
           {{ headline }}
         </h1>
 
+        
         <p class="text-gray-700 leading-relaxed mb-12 text-lg">
           {{ description }}
         </p>

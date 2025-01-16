@@ -16,6 +16,7 @@
 
     <!-- Background overlay -->
     <div class="absolute inset-0 w-full h-full bg-black/30 z-10"></div>
+    
 
     <!-- Text overlay -->
     <div class="text-overlay absolute inset-0 z-20 flex flex-col justify-center items-center">

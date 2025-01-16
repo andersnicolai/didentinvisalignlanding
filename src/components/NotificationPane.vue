@@ -43,17 +43,18 @@ const buttonText = ref("Gratis Konsultasjon");
 
 // Existing facts array
 const facts = [
-  "Invisalign er usynlig og komfortabel. 😁",
-  "Bruker skreddersydde aligners for å rette tennene. 🦷",
-  "Kan være 50 % raskere enn tradisjonelle reguleringer. 💨",
-  "Aligners er nesten umulige å se. 🔍",
-  "Kan fjernes ved måltider og tannpuss. 🦷",
-  "Passer for voksne og tenåringer. 👩‍👩‍👧‍👦",
-  "Få et perfekt smil uten metallbraketter! 🌟",
-  "Resultater vises på noen måneder! ⏱️",
-  "Praktisk behandling uten bryderi. ✨",
-  "Populært blant kjendiser og influencere. 🎬",
+  "Usynlig og komfortabel. 😁",
+  "Skreddersydde aligners. 🦷",
+  "50 % raskere enn reguleringer. 💨",
+  "Nesten usynlige aligners. 🔍",
+  "Kan fjernes ved måltider. 🍴",
+  "For voksne og tenåringer. 👨‍👩‍👧",
+  "Perfekt smil uten metall. 🌟",
+  "Resultater på få måneder. ⏱️",
+  "Praktisk og enkel behandling. ✨",
+  "Kjendiser elsker Invisalign. 🎬",
 ];
+
 
 // New locations and messages for orders, only containing Oslo
 const locations = ["Oslo"];

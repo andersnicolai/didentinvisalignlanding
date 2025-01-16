@@ -9,20 +9,10 @@
       <StarReviews />
     </div>
 
-    <div id="clinic-info">
-      <TestShowCase />
-    </div>
-    <div id="offer-section">
-      <OfferSection />
-    </div>
-
     <div id="reputation-widget">
       <ReputationHubWidget />
     </div>
 
-    <div id="clinic-info">
-      <ClinicShowcase />
-  </div>
 
   </div>
 </template>

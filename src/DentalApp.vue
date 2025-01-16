@@ -12,27 +12,10 @@ const route = useRoute();
 const isHomePage = computed(() => route.path === '/'); // Determine if the current route is the homepage
 import { ref, computed, onMounted, onUnmounted } from "vue";
 
-import NotificationPane from "@/components/NotificationPane.vue";
-import AppHeader from "@/components/AppHeader.vue";
-import VideoSection from "@/components/VideoSection.vue";
-import HeroSectionClient from "./components/HeroSectionClient/HeroSectionClient.vue";
-import SecondVideoTeaser from "./components/SecondVideoTeaser.vue";
-import Bonus from "./components/Bonus.vue";
-import StarReviews from "@/components/StarReviews.vue";
-import PricingSection from "@/components/PricingSection.vue";
-import CookieConsent from "./components/CookieConsent.vue";
-import FaqComponent from "./components/FaqComponent.vue";
-import ClinicShowcase from "./components/ClinicShowcase.vue";
-import FooterComponent from './components/FooterComponent.vue';
-import Blogger from './components/Blogger.vue';
-import HighLevelFormModal from "@/components/FormModal.vue";
-import Quiz from './components/Quiz.vue';
-import logoVideo from "@/assets/videos/logo.mp4";
-import Advertiser from './components/Advertiser.vue';
-import GPTbot from '@/components/GPTbot.vue';
 const logoImage = "@/assets/images/logo/DiDent-logo-A1-e1733310238845.jpg";
 const notificationMessage = "Get your free consultation now!";
 const notificationButtonText = "Close";
+
 
 
 const formModal = ref(null); // Reference for the modal
