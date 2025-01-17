@@ -152,7 +152,7 @@ const submitEmail = async () => {
       },
       {
         headers: {
-          Authorization: "Bearer <YOUR_API_KEY>",
+          Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2NhdGlvbl9pZCI6Ijd6R0RhYkp1ZGZuOUFkZnpUNk41IiwidmVyc2lvbiI6MSwiaWF0IjoxNzM2NTAzNzc3MDczLCJzdWIiOiI1dmVsYU5VRUduT1VLOTlYZWtkMCJ9.cpWGfwqhyoJzr1VfdgBvGoLpidbisqqXohbDsBB1aoI",
         },
       }
     );

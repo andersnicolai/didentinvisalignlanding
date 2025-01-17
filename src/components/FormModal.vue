@@ -25,20 +25,25 @@
 
 <script>
 import { onMounted, onUnmounted, ref } from "vue";
+import { useRouter } from "vue-router";
+
 
 export default {
   name: "HighLevelFormModal",
   setup() {
+    const router = useRouter(); // Use Vue Router
     const visible = ref(false);
     const isLoading = ref(true);
 
     const open = () => {
       visible.value = true;
+      router.push({ query: { modal: 'booking-form' } }); // Add a query param for tracking
     };
 
     const close = () => {
       visible.value = false;
       isLoading.value = true;
+      router.push({ query: { modal: null } }); // Remove the query param
     };
 
     const onIframeLoad = () => {
