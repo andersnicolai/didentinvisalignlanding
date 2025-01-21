@@ -4,6 +4,8 @@ import LayoutComponent from '@/components/MainLayout.vue';
 import InvisalignComponent from '@/components/InvisalignComponent.vue';
 import DentalBooking from '@/components/DentalBooking.vue';
 import BookingLayoutComponent from "@/components/BookingLayoutComponent.vue";
+import BleachingComponent from '@/components/BleachingComponent.vue';
+import BleachingLayoutComponent from '@/components/BleachingLayoutComponent.vue';
 
 const routes = [
   {
@@ -19,6 +21,13 @@ const routes = [
     component: BookingLayoutComponent, // a different layout for /booking
     children: [
       { path: '', name: 'booking', component: DentalBooking },
+    ],
+  },
+  {
+    path: '/bleking',
+    component: BleachingLayoutComponent,
+    children: [
+      { path: '', name: 'bleking', component: BleachingComponent },
     ],
   },
   {
