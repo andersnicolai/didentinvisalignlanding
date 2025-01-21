@@ -344,9 +344,18 @@ const handleSubmit = async () => {
     );
 
     if (response.status === 200 || response.status === 201) {
+      // Spor vellykket innsending
+      if (window.fbq) {
+        window.fbq('track', 'Lead', {
+          content_name: 'Bleking Kampanje',
+          content_category: 'Tannbleking',
+          value: 1990.00,
+          currency: 'NOK'
+        });
+      }
+      
       isSubmitted.value = true;
       remainingSpots.value--;
-      // Scroll litt opp for å vise hele takkemeldingen
       setTimeout(() => {
         document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
       }, 100);
