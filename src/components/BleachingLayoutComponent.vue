@@ -8,7 +8,7 @@
           alt="Dident Logo"
           class="h-16 md:h-24 object-contain"
         />
-        <p class="text-gray-600 font-semibold mt-2">Tannlegesenter i Oslo Sentrum</p>
+        <p class="text-gray-600 font-semibold mt-2">Tannlegesenter på Bjølsen, Oslo</p>
       </div>
     </div>
 
@@ -16,13 +16,13 @@
     <div class="bg-red-600 py-6 md:py-8">
       <div class="max-w-4xl mx-auto text-center px-4">
         <p class="font-bold text-3xl md:text-5xl text-white leading-tight">
-          TIDSBEGRENSET TILBUD I OSLO
+          TIDSBEGRENSET TILBUD PÅ BJØLSEN
         </p>
         <p class="text-xl md:text-3xl text-white mt-2 font-semibold">
           KUN FOR NYE PASIENTER!
         </p>
         <p class="text-lg md:text-xl text-white mt-2 opacity-90">
-          Dident Tannlegesenter - Midt i Oslo Sentrum
+          Dident Tannlegesenter - Sentralt på Bjølsen
         </p>
       </div>
     </div>
@@ -31,7 +31,7 @@
     <div class="relative h-[400px] md:h-[800px]">
       <img
         src="@/assets/images/Landingsside-4.png"
-        alt="Tannbleking behandling hos Dident Tannlegesenter i Oslo"
+        alt="Tannbleking behandling hos Dident Tannlegesenter på Bjølsen"
         class="w-full h-full object-cover"
       />
       <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70"></div>
@@ -43,7 +43,7 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-8">
       <div class="max-w-7xl mx-auto px-4 text-center">
-        <p class="mb-2">Dident Tannlegesenter - Din tannlege i Oslo Sentrum</p>
+        <p class="mb-2">Dident Tannlegesenter - Din tannlege på Bjølsen</p>
         <p>© 2024 Dident Tannlegesenter. Alle rettigheter forbeholdt.</p>
       </div>
     </footer>

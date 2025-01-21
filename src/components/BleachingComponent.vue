@@ -59,26 +59,26 @@
     <!-- Map Section - Flyttet opp -->
     <div class="bg-white py-16 px-4">
       <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-bold text-center mb-8">Sentralt i Oslo Sentrum</h2>
+        <h2 class="text-3xl font-bold text-center mb-8">Sentralt på Bjølsen</h2>
         <div class="bg-blue-50 p-6 rounded-lg shadow-lg">
           <div class="text-center mb-8">
             <p class="text-xl font-semibold mb-4">
               Dident Tannlegesenter
             </p>
             <p class="text-lg text-gray-700 mb-2">
-              Midt i Oslo Sentrum, lett tilgjengelig med både bil og kollektivtransport
+              Sentralt på Bjølsen, lett tilgjengelig med både bil og kollektivtransport
             </p>
             <div class="space-y-2 text-gray-600">
               <p>✓ Gratis parkering for våre pasienter</p>
-              <p>✓ 5 minutter fra Oslo S</p>
+              <p>✓ 2 minutter fra Bjølsen Trikk</p>
               <p>✓ Moderne lokaler med det nyeste utstyret</p>
             </div>
           </div>
           <iframe
             loading="lazy"
             src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBPjyiJOIpziomjiQqiOqtB9_XKwT_YfZM&q=dident%20tannlegesenter&zoom=15"
-            title="Dident Tannlegesenter i Oslo"
-            aria-label="Dident Tannlegesenter i Oslo"
+            title="Dident Tannlegesenter på Bjølsen"
+            aria-label="Dident Tannlegesenter på Bjølsen"
             frameborder="0"
             style="border:0; width: 100%; height: 400px;"
             allowfullscreen
@@ -92,10 +92,10 @@
     <div class="bg-gray-50 py-16 px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold mb-6">
-          Velkommen til Oslos mest moderne tannlegesenter
+          Velkommen til Bjølsens mest moderne tannlegesenter
         </h2>
         <p class="text-lg md:text-xl text-gray-700 mb-8">
-          I våre flotte lokaler midt i Oslo sentrum tilbyr vi profesjonell behandling med lang erfaring. 
+          I våre flotte lokaler på Bjølsen tilbyr vi profesjonell behandling med lang erfaring. 
           Vi har det nyeste utstyret, gratis parkering og er spesialister på behandling av tannlegeskrekk.
         </p>
       </div>
@@ -171,7 +171,7 @@
     <div class="bg-blue-600 py-16 px-4">
       <div class="max-w-4xl mx-auto text-center">
         <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">
-          Bestill time i Oslo sentrum i dag!
+          Bestill time på Bjølsen i dag!
         </h2>
         <p class="text-xl text-white mb-8">
           Spar 3.895 kr på profesjonell tannbleking
