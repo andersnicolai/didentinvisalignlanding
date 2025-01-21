@@ -10,14 +10,49 @@ on:
 jobs:
   build_and_deploy_job:
     runs-on: ubuntu-latest
+    environment: production
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Build and Deploy Static Web App
-      uses: Azure/static-web-apps-deploy@v1
-      with:
-        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_BLUE_SMOKE_0BE5E8103 }}
-        app_location: "/"
-        output_location: "dist"
-        deployment_action: "upload"
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install Dependencies
+        run: |
+          npm ci
+          cd src/server && npm ci
+
+      - name: Build Frontend
+        run: npm run build
+        env:
+          VITE_API_URL: 'https://dident-landing-api.azurewebsites.net'
+          NODE_ENV: 'production'
+
+      - name: Build and Deploy Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          api_location: "src/server"
+          output_location: "dist"
+          skip_api_build: true # Vi bygger API-en separat
+        env:
+          NODE_ENV: 'production'
+          GHL_API_KEY: ${{ secrets.GHL_API_KEY }}
+          CORS_ORIGIN: 'https://blue-smoke-0be5e8103.4.azurestaticapps.net'
+
+      - name: Build API
+        run: |
+          cd src/server
+          npm run build
+
+      - name: Deploy API
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'dident-landing-api'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          package: './src/server'
