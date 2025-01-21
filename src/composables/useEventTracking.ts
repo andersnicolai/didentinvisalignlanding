@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { config } from '@/lib/config';
+import { config } from '../lib/config';
 
 interface TrackingEvent {
   event_category?: string;
@@ -10,16 +10,23 @@ interface TrackingEvent {
 
 declare global {
   interface Window {
-    fbq?: any;
-    gtag?: any;
+    fbq?: (
+      command: string,
+      eventName: string,
+      params?: Record<string, unknown>
+    ) => void;
+    gtag?: (...args: any[]) => void;
   }
 }
 
 export function useEventTracking() {
-  const trackEvent = (eventName: string, params: TrackingEvent = {}) => {
+  const trackEvent = async (eventName: string, params: TrackingEvent = {}) => {
     // Facebook Pixel
     if (window.fbq) {
-      window.fbq('trackCustom', eventName, params);
+      window.fbq('trackCustom', eventName, {
+        ...params,
+        event_source_url: config.baseUrl
+      });
     }
     
     // Google Analytics
@@ -27,13 +34,17 @@ export function useEventTracking() {
       window.gtag('event', eventName, params);
     }
     
-    // Send til backend for logging
-    axios.post('/api/track', {
-      event: eventName,
-      params,
-      timestamp: new Date().toISOString(),
-      url: window.location.href
-    }).catch(console.error);
+    try {
+      // Send til backend for logging
+      await axios.post(`${config.apiUrl}/api/track`, {
+        event: eventName,
+        params,
+        timestamp: new Date().toISOString(),
+        url: window.location.href
+      });
+    } catch (error) {
+      console.error('Tracking error:', error);
+    }
   };
 
   const trackPageView = (params = {}) => {
