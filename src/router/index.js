@@ -24,7 +24,7 @@ const routes = [
     ],
   },
   {
-    path: '/bleking',
+    path: '/kampanje/bleking',
     component: BleachingLayoutComponent,
     children: [
       { path: '', name: 'bleking', component: BleachingComponent },

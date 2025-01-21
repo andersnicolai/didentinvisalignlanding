@@ -13,7 +13,7 @@
     </div>
 
     <!-- Timer Banner -->
-    <div class="bg-red-600 py-6 md:py-8">
+    <div class="bg-green-600 py-6 md:py-8">
       <div class="max-w-4xl mx-auto text-center px-4">
         <p class="font-bold text-3xl md:text-5xl text-white leading-tight">
           TIDSBEGRENSET TILBUD PÅ BJØLSEN
@@ -21,9 +21,7 @@
         <p class="text-xl md:text-3xl text-white mt-2 font-semibold">
           KUN FOR NYE PASIENTER!
         </p>
-        <p class="text-lg md:text-xl text-white mt-2 opacity-90">
-          Dident Tannlegesenter - Sentralt på Bjølsen
-        </p>
+    
       </div>
     </div>
 
@@ -41,16 +39,13 @@
     <router-view />
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <p class="mb-2">Dident Tannlegesenter - Din tannlege på Bjølsen</p>
-        <p>© 2024 Dident Tannlegesenter. Alle rettigheter forbeholdt.</p>
-      </div>
-    </footer>
+    <FooterComponent />
   </div>
 </template>
 
 <script setup>
+import FooterComponent from './FooterComponent.vue';
+
 // Deaktiver chat widget for denne siden
 if (typeof window !== 'undefined') {
   window.addEventListener('load', () => {
