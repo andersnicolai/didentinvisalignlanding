@@ -26,6 +26,7 @@ interface UserSession {
 }
 
 export const trackEvent = (event: TrackingEvent) => {
+  // Sjekk om vi er på server-side
   if (typeof window === 'undefined') return;
 
   // Facebook Pixel
@@ -78,6 +79,9 @@ export const trackEvent = (event: TrackingEvent) => {
 
 // Session recording setup
 export const initializeTracking = () => {
+  // Sjekk om vi er på server-side
+  if (typeof window === 'undefined') return;
+
   // Microsoft Clarity
   (function(c,l,a,r,i,t,y){
     c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
