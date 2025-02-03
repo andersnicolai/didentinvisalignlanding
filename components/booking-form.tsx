@@ -20,6 +20,17 @@ const weekDays = [
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://dident-landing-api.azurewebsites.net';
 
+// Hjelpefunksjon for valutaformatering
+const formatCurrency = (amount: number, locale: string = 'no-NO') => {
+  return new Intl.NumberFormat(locale, {
+    style: 'currency',
+    currency: 'NOK',
+    currencyDisplay: 'symbol',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(amount);
+};
+
 export default function BookingForm() {
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
@@ -99,25 +110,38 @@ export default function BookingForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Track form submission
-    trackEvent({
-      event_name: 'Lead',
-      value: 1995.00,
-      currency: 'NOK',
-      content_name: 'Tannbleking Kampanje',
-      content_category: 'Booking',
-      user_data: {
-        email,
-        phone
-      },
-      properties: {
-        booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
-        booking_time: time,
-        name: name
-      }
-    });
-    
     try {
+      const eventId = `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const [firstName, ...lastNameParts] = name.split(' ');
+      const lastName = lastNameParts.join(' ');
+      
+      // Track initial lead
+      trackEvent({
+        event_name: 'Lead',
+        event_id: eventId,
+        value: 1200.00,
+        currency: 'NOK',
+        content_name: 'Gratis Tannrens',
+        content_category: 'Dental Services',
+        user_data: {
+          email,
+          phone,
+          firstName,
+          lastName,
+          name
+        },
+        properties: {
+          booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+          booking_time: time,
+          campaign: 'tannrens_kampanje',
+          landingPage: window.location.href,
+          source: document.referrer || 'direct',
+          status: 'submitted',
+          service_type: 'tannrens',
+          is_free_service: true
+        }
+      });
+
       // Web3Forms submission
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
@@ -150,46 +174,60 @@ export default function BookingForm() {
       const result = await response.json();
       
       if (result.success) {
-        const bookingData = {
-          eventName: 'CompleteRegistration',
-          userData: {
-            email,
-            phone,
-            firstName: name.split(' ')[0],
-            lastName: name.split(' ').slice(1).join(' ')
-          },
-          customData: {
-            content_name: 'Tannrens Booking',
-            content_category: 'Dental Services',
-            content_ids: ['tannrens_gratis_kampanje'],
-            content_type: 'product',
-            delivery_category: 'in_person',
-            status: 'confirmed',
-            value: 1200,
-            currency: 'NOK',
-            booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
-            booking_time: time
-          }
-        };
-
-        // Server-side tracking
-        await fetch(`${API_URL}/api/track/conversion`, {
+        // Send til vår egen API
+        await fetch(`${API_URL}/api/leads`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(bookingData)
+          body: JSON.stringify({
+            email,
+            phone,
+            firstName,
+            campaign: 'tannrens_kampanje',
+            landingPage: window.location.href,
+            source: document.referrer || 'direct',
+            date: selectedDate ? format(selectedDate, 'dd.MM.yyyy') : '',
+            time,
+            service_type: 'tannrens',
+            is_free_service: true
+          })
         });
 
-        // Client-side tracking
-        if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('track', 'CompleteRegistration', bookingData.customData);
-        }
+        // Track successful booking completion
+        trackEvent({
+          event_name: 'CompleteRegistration',
+          event_id: `${eventId}_complete`,
+          value: 1200.00,
+          currency: 'NOK',
+          content_name: 'Gratis Tannrens Booking Fullført',
+          content_category: 'Dental Services',
+          user_data: {
+            email,
+            phone,
+            firstName,
+            lastName,
+            name
+          },
+          properties: {
+            booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+            booking_time: time,
+            campaign: 'tannrens_kampanje',
+            landingPage: window.location.href,
+            source: document.referrer || 'direct',
+            status: 'confirmed',
+            service_type: 'tannrens',
+            is_free_service: true,
+            content_ids: ['tannrens_gratis_kampanje'],
+            content_type: 'service',
+            delivery_category: 'in_person'
+          }
+        });
 
         setCurrentStep(4);
       } else {
         throw new Error('Sending failed');
       }
     } catch (error) {
-      console.error('Booking error:', error);
+      console.error('Submission error:', error);
       alert('Beklager, noe gikk galt. Ta kontakt med oss direkte på telefon.');
     }
   };
@@ -226,10 +264,12 @@ export default function BookingForm() {
           {/* Header med mørkere grønn gradient */}
           <div className="bg-[#4A6741] p-8 text-white">
             <h2 className="text-3xl font-bold text-center mb-2">
-              Book din gratis tannrens nå
+              {locale === 'no' ? 'Book din gratis tannrens nå' : 'Book your free dental cleaning now'}
             </h2>
             <p className="text-center text-white/90">
-              Verdi 1200kr - Helt kostnadsfritt for nye pasienter
+              {locale === 'no' 
+                ? `Verdi ${formatCurrency(1200)} - Helt kostnadsfritt for nye pasienter`
+                : `Value ${formatCurrency(1200)} - Completely free for new patients`}
             </p>
           </div>
 

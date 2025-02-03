@@ -1,4 +1,4 @@
-import { Router } from 'express';
+import { Router, Request, Response, RequestHandler } from 'express';
 import axios from 'axios';
 import { hashData } from "../utils/hash";
 
@@ -13,73 +13,96 @@ interface FacebookEvent {
     ph?: string;
     client_ip_address: string;
     client_user_agent: string;
+    fbc?: string;
+    fbp?: string;
   };
   custom_data?: Record<string, unknown>;
   event_source_url: string;
+  action_source: 'website';  // Literal type
 }
 
 const sendToFacebookAPI = async (event: FacebookEvent) => {
   try {
-    await axios.post(
+    console.log('Sending to Facebook API:', event);
+    const response = await axios.post(
       `https://graph.facebook.com/v18.0/${process.env.FB_PIXEL_ID}/events`,
       {
         data: [event],
         access_token: process.env.FB_ACCESS_TOKEN,
-        test_event_code: process.env.NODE_ENV === 'development' ? 'TEST62496' : undefined
+        partner_agent: "dident_capi_nodejs",
+        test_event_code: process.env.NODE_ENV === 'development' ? 'TEST58068' : undefined
       }
     );
+    console.log('Facebook API Response:', response.data);
+    return response.data;
   } catch (error) {
     console.error('Facebook API Error:', error);
+    throw error;
   }
 };
 
-router.post('/', async (req, res) => {
+const handleLead: RequestHandler = async (req, res, next) => {
   try {
     console.log('Received lead:', req.body);
-    // Send to GoHighLevel
-    const ghlResponse = await axios.post(
-      'https://rest.gohighlevel.com/v1/contacts/',
-      {
-        email: req.body.email,
-        phone: req.body.phone,
-        firstName: req.body.firstName,
-        tags: ["bleking kampanje"],
-        source: req.body.source,
-        customField: {
-          campaign: req.body.campaign,
-          landingPage: req.body.landingPage
-        }
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.GHL_API_KEY}`
-        }
-      }
-    );
 
-    // Send til Facebook CAPI
-    await sendToFacebookAPI({
-      event_name: 'Lead',
-      event_id: Date.now().toString(),
-      event_time: Math.floor(Date.now() / 1000),
-      user_data: {
-        em: hashData(req.body.email),
-        ph: hashData(req.body.phone),
-        client_ip_address: req.ip || '127.0.0.1',
-        client_user_agent: req.headers['user-agent'] || 'Unknown'
-      },
-      custom_data: {
-        value: 1995.00,
-        currency: 'NOK'
-      },
-      event_source_url: req.body.landingPage || 'https://kampanje.dident.no/tilbud/bleking'
-    });
+    if (!process.env.FB_ACCESS_TOKEN) {
+      console.error('FB_ACCESS_TOKEN is missing');
+      res.status(500).json({ error: 'FB_ACCESS_TOKEN is not configured' });
+      return;
+    }
 
-    res.status(200).json({ message: 'Lead received successfully' });
+    try {
+      const fbEvent: FacebookEvent = {
+        event_name: 'Lead',
+        event_id: `lead_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        event_time: Math.floor(Date.now() / 1000),
+        user_data: {
+          em: hashData(req.body.email),
+          ph: hashData(req.body.phone),
+          client_ip_address: req.ip || req.headers['x-forwarded-for'] as string || '127.0.0.1',
+          client_user_agent: req.headers['user-agent'] || 'Unknown',
+          fbc: req.body.fbc,
+          fbp: req.body.fbp
+        },
+        custom_data: {
+          value: 1200.00,
+          currency: 'NOK',
+          content_name: 'Gratis Tannrens',
+          content_category: 'Dental Services',
+          content_type: 'service',
+          content_ids: ['tannrens_gratis'],
+          delivery_category: 'in_person',
+          status: 'submitted',
+          service_type: 'tannrens',
+          is_free_service: true,
+          booking_date: req.body.date,
+          booking_time: req.body.time
+        },
+        event_source_url: req.body.landingPage || 'https://kampanje.dident.no',
+        action_source: 'website' as const
+      };
+
+      await sendToFacebookAPI(fbEvent);
+      res.status(200).json({ message: 'Lead received successfully' });
+      return;
+    } catch (fbError) {
+      console.error('Facebook API Error:', fbError);
+      res.status(200).json({ 
+        message: 'Lead received but Facebook tracking failed',
+        fbError: fbError.message
+      });
+      return;
+    }
   } catch (error) {
     console.error('Error handling lead:', error);
-    res.status(500).json({ error: 'Failed to handle lead' });
+    res.status(500).json({ 
+      error: 'Failed to handle lead',
+      details: error.message 
+    });
+    return;
   }
-});
+};
+
+router.post('/', handleLead);
 
 export const leadsRouter = router; 

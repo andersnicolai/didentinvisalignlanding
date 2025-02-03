@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Script from 'next/script';
-import { useEffect } from 'react';
-import { initializeTracking } from '@/utils/tracking';
+import ClientLayout from './client-layout';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -37,15 +36,6 @@ export const metadata: Metadata = {
   }
 };
 
-"use client"
-function ClientLayout({ children }: { children: React.ReactNode }) {
-  useEffect(() => {
-    initializeTracking();
-  }, []);
-  
-  return children;
-}
-
 export default function RootLayout({
   children,
 }: {
@@ -69,9 +59,9 @@ export default function RootLayout({
           `
         }} />
 
-        {/* Facebook Pixel */}
-        <script dangerouslySetInnerHTML={{
-          __html: `
+        {/* Facebook Pixel - Oppdatert implementasjon */}
+        <Script id="facebook-pixel" strategy="afterInteractive">
+          {`
             !function(f,b,e,v,n,t,s)
             {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
             n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -82,22 +72,42 @@ export default function RootLayout({
             'https://connect.facebook.net/en_US/fbevents.js');
             fbq('init', '584429571008239');
             fbq('track', 'PageView');
-          `
-        }} />
+            console.log('Facebook Pixel initialized'); // Debug melding
+          `}
+        </Script>
+        <noscript>
+          <img 
+            height="1" 
+            width="1" 
+            style={{ display: 'none' }}
+            src="https://www.facebook.com/tr?id=584429571008239&ev=PageView&noscript=1"
+          />
+        </noscript>
 
         {/* Google Analytics */}
         <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
           strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_ID}`}
         />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}');
-          `}
-        </Script>
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              console.log('GA4 Initialization with ID:', '${process.env.NEXT_PUBLIC_GA_ID}');
+              gtag('config', '${process.env.NEXT_PUBLIC_GA_ID}', {
+                debug_mode: true,
+                page_path: window.location.pathname,
+                send_page_view: true,
+                cookie_domain: 'dident.no',
+                cookie_flags: 'SameSite=None;Secure'
+              });
+            `,
+          }}
+        />
 
         {/* MouseFlow - oppdatert med din ID */}
         <Script id="mouseflow" strategy="afterInteractive">
