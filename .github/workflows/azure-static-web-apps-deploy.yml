@@ -25,6 +25,7 @@ jobs:
       - name: Build Frontend
         run: npm run build
         env:
+          NEXT_PUBLIC_FB_PIXEL_ID: ${{ secrets.NEXT_PUBLIC_FB_PIXEL_ID }}
           NEXT_PUBLIC_WEB3FORMS_KEY: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_KEY }}
 
       - name: Deploy to Azure Static Web Apps
@@ -34,5 +35,5 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/"
-          output_location: ".next"  # Next.js output directory
+          output_location: "out"
           skip_api_build: true 
