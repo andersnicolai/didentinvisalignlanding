@@ -8,7 +8,6 @@ const express_1 = require("express");
 const axios_1 = __importDefault(require("axios"));
 const hash_1 = require("../utils/hash");
 const router = (0, express_1.Router)();
-exports.leadsRouter = router;
 const sendToFacebookAPI = async (event) => {
     try {
         await axios_1.default.post(`https://graph.facebook.com/v18.0/${process.env.FB_PIXEL_ID}/events`, {
@@ -23,6 +22,7 @@ const sendToFacebookAPI = async (event) => {
 };
 router.post('/', async (req, res) => {
     try {
+        console.log('Received lead:', req.body);
         // Send to GoHighLevel
         const ghlResponse = await axios_1.default.post('https://rest.gohighlevel.com/v1/contacts/', {
             email: req.body.email,
@@ -56,12 +56,11 @@ router.post('/', async (req, res) => {
             },
             event_source_url: req.body.landingPage || 'https://kampanje.dident.no/tilbud/bleking'
         });
-        res.json({ success: true, data: ghlResponse.data });
+        res.status(200).json({ message: 'Lead received successfully' });
     }
     catch (error) {
-        res.status(500).json({
-            success: false,
-            error: (error === null || error === void 0 ? void 0 : error.message) || 'Unknown error'
-        });
+        console.error('Error handling lead:', error);
+        res.status(500).json({ error: 'Failed to handle lead' });
     }
 });
+exports.leadsRouter = router;

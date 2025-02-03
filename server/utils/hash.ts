@@ -5,23 +5,15 @@ import crypto from 'crypto';
  * @param data Data som skal hashes (e-post eller telefonnummer)
  * @returns SHA256-hashet verdi
  */
-export const hashData = (data: string): string => {
+export function hashData(data: string): string {
+  if (!data) return '';
+  
+  // Fjern alle mellomrom og konverter til lowercase
+  const normalizedData = data.trim().toLowerCase();
+  
+  // Returner SHA256 hash
   return crypto
     .createHash('sha256')
-    .update(data.toLowerCase().trim())
+    .update(normalizedData)
     .digest('hex');
-};
-
-export const prepareUserData = (data: {
-  email?: string;
-  phone?: string;
-  firstName?: string;
-  lastName?: string;
-}) => {
-  return {
-    em: data.email ? [hashData(data.email)] : undefined,
-    ph: data.phone ? [hashData(data.phone)] : undefined,
-    fn: data.firstName ? [hashData(data.firstName)] : undefined,
-    ln: data.lastName ? [hashData(data.lastName)] : undefined,
-  };
-}; 
+} 

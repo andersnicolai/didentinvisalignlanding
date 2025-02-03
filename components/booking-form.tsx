@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar as CalendarIcon, Clock, User, Mail, Phone, Shield, ArrowRight, Check } from "lucide-react"
 import { addDays, format, isSameDay, startOfToday } from "date-fns"
 import { nb } from 'date-fns/locale'
+import { trackEvent } from '@/utils/tracking'
 
 const weekDays = [
   { short: "Man", long: "Mandag" },
@@ -16,6 +17,8 @@ const weekDays = [
   { short: "Tor", long: "Torsdag" },
   { short: "Fre", long: "Fredag" }
 ];
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://dident-landing-api.azurewebsites.net';
 
 export default function BookingForm() {
   const [name, setName] = useState("")
@@ -50,7 +53,7 @@ export default function BookingForm() {
   // Legg til Facebook Advanced Matching når skjemaet lastes
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('init', '2282082825497992', {
+      (window as any).fbq('init', '584429571008239', {
         external_id: undefined,
         em: undefined,
         fn: undefined,
@@ -68,7 +71,7 @@ export default function BookingForm() {
         const [firstName, ...lastNameParts] = value.split(' ');
         const lastName = lastNameParts.join(' ');
         if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('init', '2282082825497992', {
+          (window as any).fbq('init', '584429571008239', {
             fn: firstName,
             ln: lastName
           });
@@ -77,7 +80,7 @@ export default function BookingForm() {
       case 'email':
         setEmail(value);
         if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('init', '2282082825497992', {
+          (window as any).fbq('init', '584429571008239', {
             em: value.toLowerCase().trim()
           });
         }
@@ -85,7 +88,7 @@ export default function BookingForm() {
       case 'phone':
         setPhone(value);
         if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('init', '2282082825497992', {
+          (window as any).fbq('init', '584429571008239', {
             ph: value.replace(/[^0-9]/g, '')
           });
         }
@@ -95,6 +98,24 @@ export default function BookingForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Track form submission
+    trackEvent({
+      event_name: 'Lead',
+      value: 1995.00,
+      currency: 'NOK',
+      content_name: 'Tannbleking Kampanje',
+      content_category: 'Booking',
+      user_data: {
+        email,
+        phone
+      },
+      properties: {
+        booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+        booking_time: time,
+        name: name
+      }
+    });
     
     try {
       // Web3Forms submission
@@ -129,36 +150,39 @@ export default function BookingForm() {
       const result = await response.json();
       
       if (result.success) {
-        // Client-side tracking
-        if (typeof window !== 'undefined' && (window as any).fbq) {
-          (window as any).fbq('track', 'CompleteRegistration', {
+        const bookingData = {
+          eventName: 'CompleteRegistration',
+          userData: {
+            email,
+            phone,
+            firstName: name.split(' ')[0],
+            lastName: name.split(' ').slice(1).join(' ')
+          },
+          customData: {
             content_name: 'Tannrens Booking',
+            content_category: 'Dental Services',
+            content_ids: ['tannrens_gratis_kampanje'],
+            content_type: 'product',
+            delivery_category: 'in_person',
             status: 'confirmed',
             value: 1200,
-            currency: 'NOK'
-          });
-        }
+            currency: 'NOK',
+            booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+            booking_time: time
+          }
+        };
 
         // Server-side tracking
-        await fetch('/api/track-conversion', {
+        await fetch(`${API_URL}/api/track/conversion`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            eventName: 'CompleteRegistration',
-            userData: {
-              email,
-              phone,
-              firstName: name.split(' ')[0],
-              lastName: name.split(' ').slice(1).join(' ')
-            },
-            customData: {
-              content_name: 'Tannrens Booking',
-              status: 'confirmed',
-              value: 1200,
-              currency: 'NOK'
-            }
-          })
+          body: JSON.stringify(bookingData)
         });
+
+        // Client-side tracking
+        if (typeof window !== 'undefined' && (window as any).fbq) {
+          (window as any).fbq('track', 'CompleteRegistration', bookingData.customData);
+        }
 
         setCurrentStep(4);
       } else {
@@ -167,6 +191,26 @@ export default function BookingForm() {
     } catch (error) {
       console.error('Booking error:', error);
       alert('Beklager, noe gikk galt. Ta kontakt med oss direkte på telefon.');
+    }
+  };
+
+  const trackStepCompletion = (step: number) => {
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'CustomStep', {
+        content_name: 'Booking Step ' + step,
+        content_category: 'Form Progress',
+        status: 'completed',
+        step: step
+      });
+
+      // Track Lead når personinfo er fylt ut
+      if (step === 1) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Tannrens Interesse',
+          content_category: 'Dental Services',
+          status: 'interested'
+        });
+      }
     }
   };
 
@@ -385,7 +429,10 @@ export default function BookingForm() {
                     type={currentStep === 3 ? "submit" : "button"}
                     className="bg-[#4A6741] hover:bg-[#3A513A] transition-colors ml-auto"
                     onClick={() => {
-                      if (currentStep < 3) setCurrentStep(currentStep + 1)
+                      if (currentStep < 3) {
+                        trackStepCompletion(currentStep);
+                        setCurrentStep(currentStep + 1);
+                      }
                     }}
                   >
                     {currentStep === 3 ? "Bekreft booking" : "Neste"}
