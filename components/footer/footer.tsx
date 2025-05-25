@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ClockIcon, FacebookIcon, InstagramIcon, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Logo from "@/components/logo";
+import { NewsletterForm } from "@/components/newsletter-form";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -162,24 +163,7 @@ export function Footer() {
               </a>
             </div>
             
-            <h3 className="text-white font-medium mb-2">Nyhetsbrev</h3>
-            <p className="text-sm mb-2">
-              Få tannhelsetips og eksklusive tilbud
-            </p>
-            <form className="flex">
-              <input
-                type="email"
-                placeholder="Din e-post"
-                className="px-3 py-2 text-sm bg-gray-800 border border-gray-700 rounded-l focus:outline-none focus:ring-1 focus:ring-blue-500 flex-grow"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-[#4A6741] text-white px-3 py-2 text-sm font-medium rounded-r hover:bg-[#3a5334] focus:outline-none focus:ring-2 focus:ring-[#4A6741] focus:ring-offset-2 focus:ring-offset-gray-900"
-              >
-                Meld på
-              </button>
-            </form>
+            <NewsletterForm />
           </div>
         </div>
         

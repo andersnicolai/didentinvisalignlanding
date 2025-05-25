@@ -1,0 +1,31 @@
+{
+  "name": "dident-tannklinikk",
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_API_URL": "https://dident-tannklinikk.vercel.app"
+  },
+  "functions": {
+    "app/api/booking/route.ts": {
+      "maxDuration": 30
+    },
+    "app/api/newsletter/route.ts": {
+      "maxDuration": 30
+    }
+  }
+} 

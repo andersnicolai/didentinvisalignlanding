@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     
     // Send notification about the claimed lead
     try {
-      await sendDiscordNotification('success', 'Lead Claimed', [
+      const fields = [
         {
           name: 'Lead Details',
           value: [
@@ -59,13 +59,18 @@ export async function POST(request: Request) {
           name: 'Claimed By',
           value: claimedBy,
           inline: false
-        },
-        notes ? {
+        }
+      ];
+      
+      if (notes) {
+        fields.push({
           name: 'Notes',
           value: notes,
           inline: false
-        } : null
-      ].filter(Boolean), 'This lead has been claimed for follow-up');
+        });
+      }
+      
+      await sendDiscordNotification('success', 'Lead Claimed', fields, 'This lead has been claimed for follow-up');
     } catch (error) {
       console.error('Error sending claim notification:', error);
       // Continue even if notification fails
