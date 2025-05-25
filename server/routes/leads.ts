@@ -67,14 +67,14 @@ const handleLead: RequestHandler = async (req, res, next) => {
         custom_data: {
           value: 1200.00,
           currency: 'NOK',
-          content_name: 'Gratis Tannrens',
+          content_name: 'Tannlegekonsultasjon',
           content_category: 'Dental Services',
           content_type: 'service',
-          content_ids: ['tannrens_gratis'],
+          content_ids: ['tannlege_konsultasjon'],
           delivery_category: 'in_person',
           status: 'submitted',
-          service_type: 'tannrens',
-          is_free_service: true,
+          service_type: 'konsultasjon',
+          is_free_service: false,
           booking_date: req.body.date,
           booking_time: req.body.time
         },

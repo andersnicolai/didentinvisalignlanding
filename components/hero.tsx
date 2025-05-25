@@ -45,7 +45,7 @@ export default function Hero({ remainingSlots = 3 }: HeroProps) {
               className="inline-flex items-center gap-2 bg-[#4A6741]/10 text-[#4A6741] px-4 py-2 rounded-full mb-6"
             >
               <Timer className="w-4 h-4" />
-              <span>Begrenset tilbud - Kun {remainingSlots} plasser igjen i dag!</span>
+              <span>Ny pasient? Vi gir 30% rabatt på første undersøkelse!</span>
             </motion.div>
             
             <motion.h1 
@@ -54,8 +54,8 @@ export default function Hero({ remainingSlots = 3 }: HeroProps) {
               transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6"
             >
-              Få et friskere smil med{" "}
-              <span className="text-[#4A6741]">gratis tannrens</span>
+              Få et sunnere smil med{" "}
+              <span className="text-[#4A6741]">profesjonell tannlegebehandling</span>
             </motion.h1>
             
             <motion.p 
@@ -64,8 +64,8 @@ export default function Hero({ remainingSlots = 3 }: HeroProps) {
               transition={{ delay: 0.2 }}
               className="text-lg md:text-xl text-muted-foreground mb-8"
             >
-              Verdi 1200kr - Nå helt kostnadsfritt for nye pasienter. 
-              Inkluderer full undersøkelse og personlig tannhelseplan.
+              Moderne tannbehandling med fokus på kvalitet, komfort og bærekraftige løsninger.
+              Inkluderer grundig undersøkelse og personlig behandlingsplan.
             </motion.p>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
@@ -74,13 +74,13 @@ export default function Hero({ remainingSlots = 3 }: HeroProps) {
                 className="text-lg min-h-[44px] bg-[#4A6741] text-white hover:bg-[#3A513A] transition-colors"
                 onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Book gratis time nå
+                Bestill time nå
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
               
               <div className="flex items-center gap-2 text-muted-foreground">
                 <Users className="w-5 h-5" />
-                <span>12 personer har booket i dag</span>
+                <span>30% rabatt for nye pasienter</span>
               </div>
             </div>
           </div>

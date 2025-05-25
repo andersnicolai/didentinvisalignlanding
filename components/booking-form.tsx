@@ -5,24 +5,26 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Calendar as CalendarIcon, Clock, User, Mail, Phone, Shield, ArrowRight, Check } from "lucide-react"
+import { Calendar as CalendarIcon, Clock, User, Mail, Phone, Shield, ArrowRight, Check, Star } from "lucide-react"
 import { addDays, format, isSameDay, startOfToday } from "date-fns"
 import { nb } from 'date-fns/locale'
 import { trackEvent } from '@/utils/tracking'
 
 const weekDays = [
+  { short: "Søn", long: "Søndag" },
   { short: "Man", long: "Mandag" },
   { short: "Tir", long: "Tirsdag" },
   { short: "Ons", long: "Onsdag" },
   { short: "Tor", long: "Torsdag" },
-  { short: "Fre", long: "Fredag" }
+  { short: "Fre", long: "Fredag" },
+  { short: "Lør", long: "Lørdag" },
 ];
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://dident-landing-api.azurewebsites.net';
 
 // Hjelpefunksjon for valutaformatering
-const formatCurrency = (amount: number, locale: string = 'no-NO') => {
-  return new Intl.NumberFormat(locale, {
+const formatCurrency = (amount: number) => {
+  return new Intl.NumberFormat('no-NO', {
     style: 'currency',
     currency: 'NOK',
     currencyDisplay: 'symbol',
@@ -32,34 +34,56 @@ const formatCurrency = (amount: number, locale: string = 'no-NO') => {
 };
 
 export default function BookingForm() {
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
-  const [selectedDate, setSelectedDate] = useState<Date>()
-  const [time, setTime] = useState("")
-  const [currentStep, setCurrentStep] = useState(1)
+  const today = startOfToday();
+  const [availableDates, setAvailableDates] = useState<Date[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedTime, setSelectedTime] = useState<string>("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [agreement, setAgreement] = useState(false);
+  const [step, setStep] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  // Oppdater availableDates til å bare returnere de neste 5 virkedagene
-  const availableDates = useMemo(() => {
-    const dates = [];
-    let currentDate = startOfToday();
-    while (dates.length < 5) {  // Endret fra 14 til 5 dager
+  // Generate available dates (excluding weekends)
+  useEffect(() => {
+    const dates: Date[] = [];
+    let currentDate = today;
+
+    for (let i = 0; i < 14; i++) {
       currentDate = addDays(currentDate, 1);
-      if (currentDate.getDay() !== 0 && currentDate.getDay() !== 6) {
+      const day = currentDate.getDay();
+      
+      // Skip weekends (0 = Sunday, 6 = Saturday)
+      if (day !== 0 && day !== 6) {
         dates.push(currentDate);
       }
     }
-    return dates;
+
+    setAvailableDates(dates);
+    
+    // Default to the first available date
+    if (dates.length > 0) {
+      setSelectedDate(dates[0]);
+    }
+
+    // Log dates for debugging
+    console.log("Available dates generated:", dates);
   }, []);
 
-  // Tilgjengelige tider
-  const availableTimes = [
-    { time: "09:00", label: "09:00 - Morgen" },
-    { time: "10:30", label: "10:30 - Formiddag" },
-    { time: "13:00", label: "13:00 - Tidlig ettermiddag" },
-    { time: "14:30", label: "14:30 - Ettermiddag" },
-    { time: "16:00", label: "16:00 - Sen ettermiddag" },
-  ]
+  // Available time slots
+  const availableTimeSlots = useMemo(() => {
+    return [
+      "09:00", "10:00", "11:00", "12:00", "14:00", "15:00"
+    ];
+  }, []);
+
+  // Format date for display
+  const formattedDate = useMemo(() => {
+    if (!selectedDate) return "";
+    return format(selectedDate, 'EEEE d. MMMM', { locale: nb });
+  }, [selectedDate]);
 
   // Legg til Facebook Advanced Matching når skjemaet lastes
   useEffect(() => {
@@ -121,114 +145,60 @@ export default function BookingForm() {
         event_id: eventId,
         value: 1200.00,
         currency: 'NOK',
-        content_name: 'Gratis Tannrens',
+        content_name: 'Tannlegekonsultasjon',
         content_category: 'Dental Services',
         user_data: {
           email,
           phone,
           firstName,
           lastName,
-          name
+          name,
         },
         properties: {
-          booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
-          booking_time: time,
-          campaign: 'tannrens_kampanje',
+          service_type: 'Tannlegekonsultasjon',
+          appointment_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+          appointment_time: selectedTime,
+          lead_source: document.referrer || 'direct',
           landingPage: window.location.href,
-          source: document.referrer || 'direct',
-          status: 'submitted',
-          service_type: 'tannrens',
-          is_free_service: true
+          campaign: new URLSearchParams(window.location.search).get('utm_campaign') || 'website'
         }
       });
-
-      // Web3Forms submission
-      const response = await fetch('https://api.web3forms.com/submit', {
+      
+      setIsSubmitting(true);
+      
+      // Send to Discord via API
+      const response = await fetch('/api/booking', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
-          access_key: '3adad024-3026-4aa1-b043-f04fec2e7d6a',
           name,
           email,
           phone,
-          date: selectedDate ? format(selectedDate, 'dd.MM.yyyy') : '',
-          time,
-          subject: 'Ny booking - Gratis Tannrens',
-          message: `
-            Ny booking fra kampanjesiden
-            
-            Kunde: ${name}
-            E-post: ${email}
-            Telefon: ${phone}
-            Dato: ${selectedDate ? format(selectedDate, 'dd.MM.yyyy') : ''}
-            Tid: ${time}
-            
-            Kunden ønsker gratis tannrens.
-          `.trim(),
-          from_name: "Dident Booking System",
-          botcheck: false,
-          replyto: email
-        })
+          selectedDate: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
+          selectedTime,
+          agreement
+        }),
       });
 
       const result = await response.json();
-      
-      if (result.success) {
-        // Send til vår egen API
-        await fetch(`${API_URL}/api/leads`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            phone,
-            firstName,
-            campaign: 'tannrens_kampanje',
-            landingPage: window.location.href,
-            source: document.referrer || 'direct',
-            date: selectedDate ? format(selectedDate, 'dd.MM.yyyy') : '',
-            time,
-            service_type: 'tannrens',
-            is_free_service: true
-          })
-        });
 
-        // Track successful booking completion
-        trackEvent({
-          event_name: 'CompleteRegistration',
-          event_id: `${eventId}_complete`,
-          value: 1200.00,
-          currency: 'NOK',
-          content_name: 'Gratis Tannrens Booking Fullført',
-          content_category: 'Dental Services',
-          user_data: {
-            email,
-            phone,
-            firstName,
-            lastName,
-            name
-          },
-          properties: {
-            booking_date: selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '',
-            booking_time: time,
-            campaign: 'tannrens_kampanje',
-            landingPage: window.location.href,
-            source: document.referrer || 'direct',
-            status: 'confirmed',
-            service_type: 'tannrens',
-            is_free_service: true,
-            content_ids: ['tannrens_gratis_kampanje'],
-            content_type: 'service',
-            delivery_category: 'in_person'
-          }
-        });
-
-        setCurrentStep(4);
-      } else {
-        throw new Error('Sending failed');
+      if (!response.ok) {
+        throw new Error(result.error || 'Noe gikk galt');
       }
+
+      console.log('Booking sent successfully:', result);
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      setStep(3);
+      
     } catch (error) {
-      console.error('Submission error:', error);
-      alert('Beklager, noe gikk galt. Ta kontakt med oss direkte på telefon.');
+      console.error('Error submitting form:', error);
+      setIsSubmitting(false);
+      
+      // Show error message to user
+      alert('Det oppstod en feil ved sending av booking. Vennligst prøv igjen.');
     }
   };
 
@@ -244,7 +214,7 @@ export default function BookingForm() {
       // Track Lead når personinfo er fylt ut
       if (step === 1) {
         (window as any).fbq('track', 'Lead', {
-          content_name: 'Tannrens Interesse',
+          content_name: 'Tannlegekonsultasjon Interesse',
           content_category: 'Dental Services',
           status: 'interested'
         });
@@ -253,243 +223,271 @@ export default function BookingForm() {
   };
 
   return (
-    <section id="booking" className="w-full py-16 bg-[#F4EBDA]">
-      <div className="container max-w-4xl mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="bg-white rounded-2xl shadow-xl overflow-hidden"
-        >
-          {/* Header med mørkere grønn gradient */}
-          <div className="bg-[#4A6741] p-8 text-white">
-            <h2 className="text-3xl font-bold text-center mb-2">
-              {locale === 'no' ? 'Book din gratis tannrens nå' : 'Book your free dental cleaning now'}
-            </h2>
-            <p className="text-center text-white/90">
-              {locale === 'no' 
-                ? `Verdi ${formatCurrency(1200)} - Helt kostnadsfritt for nye pasienter`
-                : `Value ${formatCurrency(1200)} - Completely free for new patients`}
-            </p>
-          </div>
-
-          {/* Progress Steps med mørkere grønn */}
-          <div className="flex justify-center -mt-4 mb-8">
-            <div className="bg-white rounded-full shadow-lg p-2 flex gap-2">
-              {[1, 2, 3].map((step) => (
-                <div
-                  key={step}
-                  className={`w-3 h-3 rounded-full ${currentStep >= step ? 'bg-[#4A6741]' : 'bg-gray-200'}`}
-                />
-              ))}
+    <section id="booking" className="w-full py-12 md:py-16 lg:py-20 bg-background">
+      <div className="container px-6 md:px-8 lg:px-12">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-16 items-start">
+          {/* Content */}
+          <div className="space-y-4 pl-2 md:pl-4 lg:pl-0">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Book din tannlegebehandling
+              </h2>
+              <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Ta det første steget mot en bedre tannhelse. Våre høyt kvalifiserte tannleger venter på å hjelpe deg med faglig ekspertise og omsorgsfull behandling.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <div className="grid grid-cols-1 gap-2">
+                <div className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  <span>Moderne fasiliteter og teknologi</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  <span>Fokus på komfort og avslappende miljø</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  <span>Erfarne tannleger med spesialistkompetanse</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Check className="h-5 w-5 text-green-600" />
+                  <span>Personlig tilpasset behandlingsplan</span>
+                </div>
+              </div>
+            </div>
+            
+            {/* Trust Badges - Reviews */}
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <p className="font-medium text-gray-900 mb-3">Nylige anmeldelser:</p>
+              <div className="space-y-3">
+                <div className="bg-gray-50 p-3 rounded-md">
+                  <div className="flex">
+                    {Array(5).fill(0).map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm mt-1">"Skriver aldri anmeldelser på noe, men dette er virkelig en tannlege og anbefale!"</p>
+                  <p className="text-xs text-gray-500 mt-1">Siss H. - for én uke siden</p>
+                </div>
+                
+                <div className="bg-gray-50 p-3 rounded-md">
+                  <div className="flex">
+                    {Array(5).fill(0).map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-sm mt-1">"Veldig fornøyd med behandlingen jeg fikk. Tannlegen var veldig dyktig."</p>
+                  <p className="text-xs text-gray-500 mt-1">Bárbara R. - for én uke siden</p>
+                </div>
+              </div>
+              
+              <div className="mt-3 flex items-center">
+                <img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" alt="Google" className="h-5" />
+                <span className="ml-2 text-sm text-gray-600">50+ anmeldelser med 5 stjerner</span>
+              </div>
             </div>
           </div>
-
-          {/* Form */}
-          <div className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {currentStep === 1 && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
+          
+          {/* Booking Form */}
+          <div className="bg-[#4A6741] p-8 text-white">
+            <h2 className="text-3xl font-bold text-center mb-2">
+              Book din tannlegekonsultasjon
+            </h2>
+            <p className="text-center text-white/90">
+              Få en grundig undersøkelse og personlig behandlingsplan
+            </p>
+            
+            <form onSubmit={handleSubmit} className="mt-6 space-y-6">
+              {step === 1 && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
                   className="space-y-4"
                 >
-                  <div className="relative">
-                    <Label htmlFor="name" className="flex items-center gap-2">
-                      <User className="h-4 w-4 text-primary" />
-                      Ditt navn
-                    </Label>
-                    <Input 
-                      id="name"
-                      value={name}
-                      onChange={(e) => handleInputChange('name', e.target.value)}
-                      className="pl-10 border-primary/20 focus:border-primary"
-                      required
-                    />
-                  </div>
-                  <div className="relative">
-                    <Label htmlFor="email" className="flex items-center gap-2">
-                      <Mail className="h-4 w-4 text-primary" />
-                      E-post
-                    </Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={email}
-                      onChange={(e) => handleInputChange('email', e.target.value)}
-                      className="pl-10 border-primary/20 focus:border-primary"
-                      required
-                    />
-                  </div>
-                  <div className="relative">
-                    <Label htmlFor="phone" className="flex items-center gap-2">
-                      <Phone className="h-4 w-4 text-primary" />
-                      Telefon
-                    </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      value={phone}
-                      onChange={(e) => handleInputChange('phone', e.target.value)}
-                      className="pl-10 border-primary/20 focus:border-primary"
-                      required
-                    />
-                  </div>
-                </motion.div>
-              )}
-
-              {currentStep === 2 && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-8"
-                >
-                  {/* Kalender */}
-                  <div className="bg-[#f0f4f1] p-4 md:p-6 rounded-lg">
-                    <Label className="flex items-center gap-2 mb-4">
-                      <CalendarIcon className="h-5 w-5 text-[#4A6741]" />
-                      <span className="text-lg font-medium">Velg dato</span>
-                    </Label>
-
+                  <div className="space-y-1">
+                    <p className="font-medium">Velg dato:</p>
                     <div className="grid grid-cols-5 gap-2">
-                      {availableDates.map((date) => (
+                      {availableDates.slice(0, 5).map((date) => (
                         <button
-                          key={date.toISOString()}
+                          key={date.toString()}
                           type="button"
-                          onClick={(e) => {
-                            e.preventDefault();
+                          className={`flex flex-col items-center justify-center p-2 rounded-md transition-colors
+                            ${isSameDay(date, selectedDate || new Date()) 
+                              ? 'bg-white text-[#4A6741]' 
+                              : 'bg-white/10 hover:bg-white/20'}`}
+                          onClick={() => {
+                            console.log("Date selected:", date);
                             setSelectedDate(date);
                           }}
-                          className={`p-3 rounded-lg text-center transition-colors ${
-                            selectedDate && isSameDay(date, selectedDate)
-                              ? 'bg-[#4A6741] text-white'
-                              : 'bg-white hover:bg-[#4A6741]/10'
-                          }`}
                         >
-                          <div className="text-xs font-medium mb-1">
-                            {weekDays[date.getDay() - 1].short}
-                          </div>
-                          <div className="text-lg font-bold">
-                            {format(date, 'd')}
-                          </div>
-                          <div className="text-xs text-muted-foreground">
-                            {format(date, 'MMM', { locale: nb })}
-                          </div>
+                          <span className="text-xs font-medium">
+                            {weekDays[date.getDay()]?.short}
+                          </span>
+                          <span className="text-lg font-bold">{format(date, 'd')}</span>
                         </button>
                       ))}
                     </div>
                   </div>
-
-                  {/* Tidspunkter */}
-                  {selectedDate && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="space-y-4"
-                    >
-                      <Label className="flex items-center gap-2">
-                        <Clock className="h-5 w-5 text-[#4A6741]" />
-                        <span className="text-lg font-medium">Velg tid</span>
-                      </Label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {availableTimes.map((slot) => (
-                          <button
-                            key={slot.time}
-                            type="button"
-                            onClick={() => setTime(slot.time)}
-                            className={`p-4 rounded-lg border-2 transition-all ${
-                              time === slot.time
-                                ? 'border-[#4A6741] bg-[#f0f4f1] text-[#4A6741]'
-                                : 'border-gray-200 hover:border-[#4A6741]/50'
-                            }`}
-                          >
-                            <p className="font-medium">{slot.label}</p>
-                          </button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </motion.div>
-              )}
-
-              {currentStep === 3 && (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  className="space-y-6"
-                >
-                  <div className="bg-secondary/30 p-6 rounded-lg">
-                    <h3 className="font-semibold mb-4">Oppsummering av booking</h3>
-                    <div className="space-y-2 text-sm">
-                      <p><span className="text-muted-foreground">Navn:</span> {name}</p>
-                      <p><span className="text-muted-foreground">E-post:</span> {email}</p>
-                      <p><span className="text-muted-foreground">Telefon:</span> {phone}</p>
-                      <p><span className="text-muted-foreground">Dato:</span> {selectedDate ? format(selectedDate, 'EEEE, d. MMMM yyyy') : ''}</p>
-                      <p><span className="text-muted-foreground">Tid:</span> {time}</p>
+                  
+                  <div className="space-y-1">
+                    <p className="font-medium">Velg tid:</p>
+                    <div className="grid grid-cols-3 gap-2">
+                      {availableTimeSlots.map((time) => (
+                        <button
+                          key={time}
+                          type="button"
+                          className={`flex items-center justify-center gap-1 p-2 rounded-md transition-colors
+                            ${time === selectedTime 
+                              ? 'bg-white text-[#4A6741]' 
+                              : 'bg-white/10 hover:bg-white/20'}`}
+                          onClick={() => setSelectedTime(time)}
+                        >
+                          <Clock className="h-4 w-4" />
+                          <span>{time}</span>
+                        </button>
+                      ))}
                     </div>
                   </div>
-                </motion.div>
-              )}
-
-              {currentStep === 4 && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-8"
-                >
-                  <div className="w-16 h-16 bg-[#4A6741]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Check className="h-8 w-8 text-primary" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-2">Booking mottatt!</h3>
-                  <p className="text-muted-foreground mb-6">
-                    Vi sender deg en bekreftelse på e-post innen kort tid.
-                  </p>
-                  <Button
+                  
+                  <Button 
                     type="button"
-                    variant="outline"
-                    onClick={() => setCurrentStep(1)}
+                    className="w-full bg-white text-[#4A6741] hover:bg-white/90"
+                    onClick={() => setStep(2)}
+                    disabled={!selectedDate || !selectedTime}
                   >
-                    Book en ny time
+                    Neste trinn <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </motion.div>
               )}
-
-              {currentStep < 4 && (
-                <div className="flex justify-between pt-6">
-                  {currentStep > 1 && (
-                    <Button
+              
+              {step === 2 && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="space-y-4"
+                >
+                  <div className="p-3 bg-white/10 rounded-md">
+                    <p className="text-sm">Din valgte tid:</p>
+                    <p className="font-medium">{formattedDate}, kl. {selectedTime}</p>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Navn</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-white/50" />
+                      <Input 
+                        id="name"
+                        placeholder="Ditt fulle navn"
+                        className="pl-10 bg-white/10 border-white/20 placeholder:text-white/50 text-white"
+                        value={name}
+                        onChange={(e) => handleInputChange('name', e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="email">E-post</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-white/50" />
+                      <Input 
+                        id="email"
+                        type="email"
+                        placeholder="din@epost.no"
+                        className="pl-10 bg-white/10 border-white/20 placeholder:text-white/50 text-white"
+                        value={email}
+                        onChange={(e) => handleInputChange('email', e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Telefon</Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-3 h-4 w-4 text-white/50" />
+                      <Input 
+                        id="phone"
+                        placeholder="+47 XXX XX XXX"
+                        className="pl-10 bg-white/10 border-white/20 placeholder:text-white/50 text-white"
+                        value={phone}
+                        onChange={(e) => handleInputChange('phone', e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-start gap-2">
+                    <input
+                      type="checkbox"
+                      id="agreement"
+                      className="mt-1"
+                      checked={agreement}
+                      onChange={(e) => setAgreement(e.target.checked)}
+                      required
+                    />
+                    <Label htmlFor="agreement" className="text-sm text-white/90">
+                      Jeg samtykker til at Dident kan kontakte meg vedrørende min timebestilling og for å gi meg relevant informasjon om tannhelse og behandlinger.
+                    </Label>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <Button 
                       type="button"
                       variant="outline"
-                      onClick={() => setCurrentStep(currentStep - 1)}
+                      className="border-white/20 text-white hover:bg-white/10 hover:text-white"
+                      onClick={() => setStep(1)}
                     >
                       Tilbake
                     </Button>
-                  )}
-                  <Button
-                    type={currentStep === 3 ? "submit" : "button"}
-                    className="bg-[#4A6741] hover:bg-[#3A513A] transition-colors ml-auto"
-                    onClick={() => {
-                      if (currentStep < 3) {
-                        trackStepCompletion(currentStep);
-                        setCurrentStep(currentStep + 1);
-                      }
-                    }}
-                  >
-                    {currentStep === 3 ? "Bekreft booking" : "Neste"}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
+                    <Button 
+                      type="submit"
+                      className="w-full bg-white text-[#4A6741] hover:bg-white/90"
+                      disabled={!name || !email || !phone || !agreement || isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <span className="flex items-center gap-2">
+                          <span className="h-4 w-4 border-2 border-[#4A6741] border-t-transparent rounded-full animate-spin" />
+                          Sender...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          Book din time <ArrowRight className="h-4 w-4" />
+                        </span>
+                      )}
+                    </Button>
+                  </div>
+                  
+                  <p className="text-xs text-center text-white/70 flex items-center justify-center gap-1">
+                    <Shield className="h-3 w-3" /> Dine personopplysninger er trygge hos oss
+                  </p>
+                </motion.div>
+              )}
+              
+              {step === 3 && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-8 text-center space-y-4"
+                >
+                  <div className="mx-auto h-16 w-16 bg-white rounded-full flex items-center justify-center">
+                    <Check className="h-8 w-8 text-[#4A6741]" />
+                  </div>
+                  <h3 className="text-2xl font-bold">Takk for din bestilling!</h3>
+                  <p className="text-white/90">
+                    Vi har sendt deg en bekreftelse på e-post og vil kontakte deg snart for å bekrefte din time.
+                  </p>
+                  <p className="text-white/90">
+                    <strong>Din valgte tid:</strong> {formattedDate}, kl. {selectedTime}
+                  </p>
+                </motion.div>
               )}
             </form>
-
-            {currentStep < 4 && (
-              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-600">
-                <Shield className="h-4 w-4 text-[#4A6741]" />
-                <p>Sikker booking - Vi beskytter dine personopplysninger</p>
-              </div>
-            )}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

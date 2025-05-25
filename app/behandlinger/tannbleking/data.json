@@ -1,0 +1,205 @@
+{
+  "metadata": {
+    "title": "Tannbleking | Dident Tannklinikk Oslo",
+    "description": "Få et hvitere og friskere smil med profesjonell tannbleking hos Dident Tannklinikk i Oslo. Trygg, effektiv og langvarig behandling.",
+    "keywords": "tannbleking, hvitere tenner, kosmetisk tannbehandling, tannlege, oslo, profesjonell tannbleking, tannklinikk"
+  },
+  "hero": {
+    "title": "Tannbleking",
+    "description": "Få et lysere, hvitere smil som gir deg selvtillit. Vår profesjonelle tannbleking er skånsom mot emaljen og gir langvarige resultater som du vil være stolt av å vise frem.",
+    "image": "/images/treatments/whitening-hero.jpg",
+    "primaryButtonText": "Bestill konsultasjon",
+    "primaryButtonUrl": "/booking",
+    "secondaryButtonText": "Les mer om behandlingen",
+    "secondaryButtonUrl": "#about"
+  },
+  "about": {
+    "title": "Hva er profesjonell tannbleking?",
+    "paragraphs": [
+      "Profesjonell tannbleking er en sikker og effektiv metode for å fjerne misfarging og gjøre tennene flere nyanser hvitere. Behandlingen utføres med spesiallagde blekemidler som kun er tilgjengelige for tannleger.",
+      "Hos Dident Tannklinikk bruker vi avanserte og skånsomme blekesystemer som er tilpasset dine behov. Vi tilbyr både tannbleking på klinikken og hjemmebleking med individuelt tilpassede skinner.",
+      "Til forskjell fra hylleprodukter gir profesjonell tannbleking betydelig bedre, jevnere og mer langvarige resultater, samtidig som det er tryggere for tennene og tannkjøttet ditt."
+    ],
+    "image": "/images/treatments/whitening-what.jpg"
+  },
+  "benefits": {
+    "title": "Fordeler med profesjonell tannbleking",
+    "subtitle": "Profesjonell tannbleking hos tannlege har mange fordeler sammenlignet med produkter du kan kjøpe i butikken.",
+    "items": [
+      {
+        "id": 1,
+        "title": "Bedre resultater",
+        "description": "Profesjonell tannbleking gir opptil 8 nyanser lysere tenner, noe som er betydelig mer effektivt enn hylleprodukter."
+      },
+      {
+        "id": 2,
+        "title": "Skreddersydd behandling",
+        "description": "Vi tilpasser behandlingen til dine tenner og ønsker, og tar hensyn til eventuelle følsomme områder."
+      },
+      {
+        "id": 3,
+        "title": "Trygg og skånsom",
+        "description": "Alle våre blekemidler er klinisk testet og brukes under oppsyn av erfarne tannleger for å unngå skader."
+      },
+      {
+        "id": 4,
+        "title": "Langvarige resultater",
+        "description": "Resultatene varer betydelig lengre enn med produkter fra butikken, ofte opptil flere år med riktig vedlikehold."
+      },
+      {
+        "id": 5,
+        "title": "Raskere effekt",
+        "description": "Se synlige resultater allerede etter første behandling, i motsetning til uker eller måneder med hylleprodukter."
+      },
+      {
+        "id": 6,
+        "title": "Jevnere hvithet",
+        "description": "Profesjonell bleking gir et jevnere resultat over hele tannoverflaten, uten flekkete eller ujevn hvithet."
+      }
+    ]
+  },
+  "treatmentProcess": {
+    "title": "Behandlingsprosessen",
+    "subtitle": "Vår tannblekingsprosess er enkel, effektiv og tilpasset dine behov for et strålende smil.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Konsultasjon og vurdering",
+        "description": "Vi starter med en grundig undersøkelse av tennene dine for å vurdere type misfarging og om du er en god kandidat for tannbleking. Vi diskuterer dine forventninger og ønsker.",
+        "additionalInfo": "Det er viktig å behandle eventuelle tannproblemer som hull eller tannkjøttsykdom før tannbleking.",
+        "image": "/images/treatments/whitening-step1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Profesjonell tannrens",
+        "description": "For best mulig resultat anbefaler vi en profesjonell tannrens før blekingen for å fjerne belegg og tannstein som kan påvirke resultatet.",
+        "additionalInfo": "Tannrensen sikrer at blekemiddelet kommer i direkte kontakt med hele tannoverflaten for et jevnt resultat.",
+        "image": "/images/treatments/whitening-step2.jpg"
+      },
+      {
+        "id": 3,
+        "title": "Valg av blekemetode",
+        "description": "Basert på dine behov, anbefaler vi enten klinikkbleking (rask prosess på klinikken) eller hjemmebleking (med tilpassede skinner).",
+        "additionalInfo": "Noen pasienter foretrekker en kombinasjon av begge metodene for optimale resultater.",
+        "image": "/images/treatments/whitening-step3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Gjennomføring av behandling",
+        "description": "For klinikkbleking påfører vi et beskyttende lag på tannkjøttet før blekemiddelet aktiveres med spesiallys. For hjemmebleking lager vi tilpassede skinner og gir deg detaljerte instruksjoner.",
+        "additionalInfo": "Klinikkbleking tar ca. 60-90 minutter, mens hjemmebleking typisk brukes 30 minutter daglig over 1-2 uker.",
+        "image": "/images/treatments/whitening-step4.jpg"
+      },
+      {
+        "id": 5,
+        "title": "Vedlikehold og etterpleie",
+        "description": "Vi gir deg råd om hvordan du kan bevare det hvite smilet ditt lengst mulig, inkludert kostholdsråd og eventuelle vedlikeholdsprodukter.",
+        "additionalInfo": "Med riktig vedlikehold kan resultatene vare i 1-3 år før oppfriskningsbehandling er nødvendig.",
+        "image": "/images/treatments/whitening-step5.jpg"
+      }
+    ]
+  },
+  "pricing": {
+    "title": "Priser for tannbleking",
+    "subtitle": "Vi tilbyr ulike blekemetoder til konkurransedyktige priser. Alle priser inkluderer konsultasjon og oppfølging.",
+    "options": [
+      {
+        "id": 1,
+        "title": "Hjemmebleking",
+        "description": "Tilpassede blekeskinner for bruk hjemme.",
+        "price": 3500,
+        "priceDescription": "Komplett behandling",
+        "popular": false,
+        "features": [
+          "Individuelt tilpassede blekeskinner",
+          "Profesjonelt blekemiddel",
+          "Detaljert veiledning",
+          "Inkluderer konsultasjon og tilpasning",
+          "Resultater etter 1-2 ukers bruk",
+          "Enkel å vedlikeholde ved behov"
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Klinikkbleking",
+        "description": "Rask og effektiv behandling på klinikken.",
+        "price": 4500,
+        "priceDescription": "Komplett behandling",
+        "popular": true,
+        "features": [
+          "Én behandling på ca. 60-90 minutter",
+          "Høykonsentrert blekemiddel",
+          "Aktivering med spesiallys",
+          "Umiddelbare resultater",
+          "Beskyttelse av tannkjøtt og sensitive områder",
+          "Inkluderer konsultasjon og tannrens"
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Kombinasjonsbehandling",
+        "description": "Den mest effektive løsningen for optimale resultater.",
+        "price": 5500,
+        "priceDescription": "Komplett behandling",
+        "popular": false,
+        "features": [
+          "Klinikkbleking for umiddelbare resultater",
+          "Hjemmeblekingssett for vedlikehold",
+          "Maksimal hvithet",
+          "Langvarige resultater",
+          "Inkluderer konsultasjon og tannrens",
+          "Komplett oppfølging og vedlikeholdsveiledning"
+        ]
+      }
+    ],
+    "financing": {
+      "title": "Finansiering",
+      "paragraphs": [
+        "Vi tilbyr fleksible betalingsplaner for alle våre behandlinger. Spør oss om våre rentefrie finansieringsalternativer ved din konsultasjon.",
+        "Husk at mange tannforsikringer gir rabatt på kosmetiske behandlinger som tannbleking. Vi hjelper deg gjerne med å sjekke din dekning."
+      ]
+    }
+  },
+  "faqs": {
+    "title": "Vanlige spørsmål om tannbleking",
+    "subtitle": "Her finner du svar på de vanligste spørsmålene om profesjonell tannbleking.",
+    "items": [
+      {
+        "id": 1,
+        "question": "Er tannbleking skadelig for tennene?",
+        "answer": "Profesjonell tannbleking utført av tannlege er trygt og skånsomt for tennene. Vi bruker klinisk testede produkter og beskytter tannkjøtt og sensitive områder. Noen kan oppleve forbigående ømhet eller sensitivitet, men dette går vanligvis over i løpet av noen dager."
+      },
+      {
+        "id": 2,
+        "question": "Hvor lenge varer resultatene av tannbleking?",
+        "answer": "Resultatene varer vanligvis mellom 1-3 år, avhengig av livsstil, kosthold og munnhygiene. Røyking, kaffe, te, rødvin og fargerik mat kan redusere varigheten. Med hjemmeskinner kan du gjøre korte oppfriskningsbehandlinger ved behov."
+      },
+      {
+        "id": 3,
+        "question": "Passer tannbleking for alle?",
+        "answer": "Tannbleking passer for de fleste, men anbefales ikke for gravide, ammende, personer under 18 år, eller hvis du har alvorlige tannkjøttsproblemer, hull, eller meget sensitive tenner. Vi gjør alltid en individuell vurdering ved konsultasjon."
+      },
+      {
+        "id": 4,
+        "question": "Hva er forskjellen på hjemmebleking og klinikkbleking?",
+        "answer": "Klinikkbleking gir raskere resultater på én behandling med høyere konsentrasjon av blekemiddel. Hjemmebleking bruker lavere konsentrasjon over lengre tid med tilpassede skinner, og gir mer kontroll over sluttresultatet og kan være mer skånsomt for sensitive tenner."
+      },
+      {
+        "id": 5,
+        "question": "Fungerer bleking på alle typer misfarging?",
+        "answer": "Tannbleking fungerer best på ytre misfarging fra mat, drikke og røyk. Det er mindre effektivt på indre misfarging fra medisiner, skader eller genetiske faktorer. Gråtonede tenner er vanskeligere å bleke enn gultonede. Vi vurderer dette ved konsultasjon og kan foreslå alternative behandlinger hvis nødvendig."
+      },
+      {
+        "id": 6,
+        "question": "Hva bør jeg unngå etter tannbleking?",
+        "answer": "De første 48 timene etter bleking bør du unngå fargerike matvarer og drikker som kaffe, te, rødvin, curry, tomatsaus og rødbeter. Unngå også røyking og snus. Denne perioden kalles 'den hvite dietten' fordi tennene er mer mottakelige for misfarging mens de rehydrerer."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Klar for et hvitere, friskere smil?",
+    "description": "Bestill en konsultasjon for tannbleking hos Dident Tannklinikk i dag. Våre erfarne tannleger vil vurdere dine behov og hjelpe deg med å oppnå det hvite smilet du drømmer om.",
+    "buttonText": "Bestill konsultasjon nå",
+    "buttonUrl": "/booking"
+  }
+} 

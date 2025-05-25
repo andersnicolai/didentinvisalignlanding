@@ -2,8 +2,8 @@
 
 ## Hovedmål
 - Konvertere besøkende til kunder
-- Promotere gratis tannrens-tilbud
-- Skape en følelse av hastverk og eksklusivitet
+- Promotere 30% rabatt for nye pasienter
+- Skape en følelse av profesjonalitet og kvalitet
 
 ## Design Prinsipper
 - Minimalistisk og rent design
@@ -16,23 +16,23 @@
 ## Hovedseksjoner
 
 ### 1. Hero-seksjon
-- Fremtredende "Gratis Tannrens" tilbud
+- Fremtredende "30% rabatt for nye pasienter" tilbud
 - Tydelig CTA (Call-to-Action) knapp
-- Hasthetsindikator: "Kun X plasser igjen i dag!"
-- Legg til før/etter bilder av tannrens-resultater
-- Inkluder en kort video som viser prosessen
+- Kvalitetsindikator: "Moderne tannbehandling med fokus på komfort"
+- Legg til før/etter bilder av behandlingsresultater
+- Inkluder en kort video som viser klinikken
 - Vertikal stabling av innhold for mobil
 - Komprimert video-versjon for mobil
 - Touch-vennlig CTA-knapp (minst 44x44px)
 - Swipebar før/etter-bilder sammenligning
 
-### 2. Fordeler med Tannrens
+### 2. Fordeler med Tannlegebehandling
 - Bedre munnhelse
-- Friskere pust
-- Hvitere tenner
-- Forebyggende effekt
-- Legg til prissammenligning med vanlig tannrens
-- Inkluder kundevurderinger spesifikt om tannrens
+- Forebyggende tannpleie
+- Profesjonell behandling
+- Skreddersydd behandlingsplan
+- Legg til prissammenligning med ordinære priser
+- Inkluder kundevurderinger om behandlingskvalitet
 
 ### 3. Hvorfor Velge Dident
 - Erfarne tannleger
@@ -45,7 +45,7 @@
 ### 4. Booking-seksjon
 - Enkel timebestillingsknapp
 - Sosiale bevis
-- Nedtellingstimer
+- Tydelig verditilbud
 - "X personer har booket i dag"
 - Legg til chat-widget for øyeblikkelig support
 - Vis frem ledige timer direkte på siden
@@ -63,10 +63,10 @@
 - Legg til interaktiv quiz om tannhelse
 
 ## Konverteringselementer
-- Tidsbegrenset tilbud
+- Verdibasert tilbud
 - Sosiale bevis
 - Tydelige handlingsknapper
-- Begrenset tilgjengelighet-indikatorer
+- Kvalitets- og profesjonalitetsindikatorer
 - Legg til exit-intent popup med spesialtilbud
 - A/B testing av ulike CTA-tekster
 - Retargeting-strategi for besøkende som ikke konverterer

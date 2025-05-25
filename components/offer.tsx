@@ -10,7 +10,7 @@ export default function Offer() {
           Ikke gå glipp av denne muligheten!
         </h2>
         <p className="text-xl mb-6">
-          Få en profesjonell tannrens verdt 1200 kr helt gratis
+          Få 30% rabatt på din første undersøkelse som ny pasient
         </p>
         <div className="flex justify-center items-center space-x-2 mb-8">
           <Clock className="h-6 w-6" />
@@ -24,7 +24,7 @@ export default function Offer() {
           className="bg-white text-[#4A6741] hover:bg-[#F4EBDA] transition-colors font-medium"
         >
           <Link href="#booking">
-            Ja, jeg vil ha gratis tannrens!
+            Ja, jeg vil ha 30% rabatt på min behandling!
           </Link>
         </Button>
       </div>

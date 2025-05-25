@@ -1,0 +1,208 @@
+{
+  "metadata": {
+    "title": "Invisalign | Dident Tannklinikk Oslo",
+    "description": "Få et perfekt smil med Invisalign hos Dident Tannklinikk. Usynlig tannregulering som er komfortabel, avtagbar og effektiv.",
+    "keywords": "invisalign, tannregulering, usynlig tannregulering, tannlege, oslo, rett smil, tannklinikk"
+  },
+  "hero": {
+    "title": "Invisalign",
+    "description": "Oppnå det perfekte smilet med nesten usynlige, avtagbare skinner. Invisalign er en moderne løsning for tannregulering som gir deg friheten du ønsker mens du oppnår fantastiske resultater.",
+    "image": "/images/treatments/invisalign-hero.jpg",
+    "primaryButtonText": "Bestill konsultasjon",
+    "primaryButtonUrl": "/booking",
+    "secondaryButtonText": "Les mer om behandlingen",
+    "secondaryButtonUrl": "#about"
+  },
+  "about": {
+    "title": "Hva er Invisalign?",
+    "paragraphs": [
+      "Invisalign er et moderne alternativ til tradisjonell tannregulering. I stedet for metallbøyler og -tråder, bruker Invisalign en serie av klare, avtagbare plastskinner som gradvis flytter tennene dine til den ønskede posisjonen.",
+      "Skinnene er skreddersydd for dine tenner og lages ved hjelp av avansert 3D-datateknologi. Hver skinne brukes i omtrent to uker før du bytter til den neste i serien, som flytter tennene dine litt nærmere det endelige målet.",
+      "Fordi Invisalign-skinnene er gjennomsiktige, vil de fleste ikke engang legge merke til at du har dem på. Du kan også ta dem ut når du spiser, drikker, pusser tennene eller ved spesielle anledninger."
+    ],
+    "image": "/images/treatments/invisalign-what.jpg"
+  },
+  "benefits": {
+    "title": "Fordeler med Invisalign",
+    "subtitle": "Invisalign tilbyr mange fordeler sammenlignet med tradisjonell tannregulering, noe som gjør det til et populært valg for pasienter i alle aldre.",
+    "items": [
+      {
+        "id": 1,
+        "title": "Nesten usynlig",
+        "description": "Invisalign-skinnene er laget av gjennomsiktig plast som er nesten umulig å se når de brukes."
+      },
+      {
+        "id": 2,
+        "title": "Avtagbare",
+        "description": "Du kan ta ut skinnene når du spiser, drikker, pusser tennene eller ved spesielle anledninger."
+      },
+      {
+        "id": 3,
+        "title": "Komfortable",
+        "description": "Uten metallbøyler og -tråder reduseres irritasjon og ubehag i munnen betydelig."
+      },
+      {
+        "id": 4,
+        "title": "Forutsigbart resultat",
+        "description": "Avansert 3D-teknologi viser hele behandlingsforløpet og sluttresultatet før du starter."
+      },
+      {
+        "id": 5,
+        "title": "Færre tannlegebesøk",
+        "description": "Invisalign krever generelt færre kontroller enn tradisjonell tannregulering."
+      },
+      {
+        "id": 6,
+        "title": "Bedre tannhelse",
+        "description": "Avtagbare skinner gjør det enklere å opprettholde god munnhygiene under behandlingen."
+      }
+    ]
+  },
+  "treatmentProcess": {
+    "title": "Behandlingsprosessen",
+    "subtitle": "Invisalign-behandlingen er en enkel og effektiv prosess som gir deg et vakkert smil.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Konsultasjon og 3D-skanning",
+        "description": "Behandlingen starter med en grundig konsultasjon hvor vi bruker avansert 3D-skanning for å lage en digital modell av tennene dine. Ingen ubehagelige avtrykk!",
+        "additionalInfo": "Dette gjør det mulig for oss å vise deg hvordan tennene dine vil bevege seg gjennom hele behandlingen, og hvordan ditt nye smil vil se ut før du starter.",
+        "image": "/images/treatments/invisalign-step1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Tilpasning av behandlingsplan",
+        "description": "Basert på 3D-modellen lager vi en personlig behandlingsplan som viser nøyaktig hvordan tennene dine vil flyttes, og hvor lang tid behandlingen vil ta.",
+        "additionalInfo": "Du får også se en virtuell visning av hvordan smilet ditt vil se ut når behandlingen er fullført.",
+        "image": "/images/treatments/invisalign-step2.jpg"
+      },
+      {
+        "id": 3,
+        "title": "Mottak av skreddersydde skinner",
+        "description": "Når behandlingsplanen er godkjent, lages dine skreddersydde Invisalign-skinner. Du vil motta flere sett med skinner som du skal bytte ut omtrent hver 1-2 uker.",
+        "additionalInfo": "Skinnene skal brukes 20-22 timer i døgnet for best resultat, og tas bare ut når du spiser, drikker (annet enn vann) eller pusser tennene.",
+        "image": "/images/treatments/invisalign-step3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Regelmessige kontroller",
+        "description": "Du vil ha kontroller ca. hver 6-8 uke for å sikre at behandlingen går som planlagt. Vi vil gi deg nye sett med skinner ved disse besøkene.",
+        "additionalInfo": "Kontrollene er korte og effektive siden det ikke er nødvendig med justeringer som ved tradisjonell tannregulering.",
+        "image": "/images/treatments/invisalign-step4.jpg"
+      },
+      {
+        "id": 5,
+        "title": "Behandling fullført",
+        "description": "Når behandlingen er fullført, vil du få tilpasset en retainer for å sikre at tennene dine forblir i sin nye posisjon. Dette er en viktig del av etterbehandlingen.",
+        "additionalInfo": "De fleste pasienter bruker retaineren om natten for å opprettholde sitt nye smil i årene fremover.",
+        "image": "/images/treatments/invisalign-step5.jpg"
+      }
+    ]
+  },
+  "pricing": {
+    "title": "Priser for Invisalign",
+    "subtitle": "Vi tilbyr ulike Invisalign-behandlinger tilpasset dine behov. Prisene varierer avhengig av behandlingens kompleksitet og varighet.",
+    "options": [
+      {
+        "id": 1,
+        "title": "Invisalign Lite",
+        "description": "For mindre korreksjoner og enkle tilfeller.",
+        "price": 35000,
+        "priceDescription": "Fullstendig behandling",
+        "popular": false,
+        "features": [
+          "Opptil 14 skinner",
+          "Behandlingstid: 3-6 måneder",
+          "Ideell for mindre justeringer",
+          "Inkluderer konsultasjon og skanning",
+          "Retainer etter behandling",
+          "6 måneders oppfølging"
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Invisalign Full",
+        "description": "Komplett behandling for de fleste tilfeller.",
+        "price": 45000,
+        "priceDescription": "Fullstendig behandling",
+        "popular": true,
+        "features": [
+          "Ubegrenset antall skinner",
+          "Behandlingstid: 12-18 måneder",
+          "For moderate til komplekse korreksjoner",
+          "Inkluderer konsultasjon og skanning",
+          "Retainer etter behandling",
+          "12 måneders oppfølging",
+          "Inkludert tannbleking etter behandling"
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Invisalign Comprehensive",
+        "description": "For komplekse tilfeller som krever omfattende behandling.",
+        "price": 55000,
+        "priceDescription": "Fullstendig behandling",
+        "popular": false,
+        "features": [
+          "Ubegrenset antall skinner",
+          "Behandlingstid: 18-24+ måneder",
+          "For komplekse tilfeller",
+          "Inkluderer konsultasjon og skanning",
+          "Retainer etter behandling",
+          "24 måneders oppfølging",
+          "Inkludert tannbleking etter behandling",
+          "Prioritert timebestilling"
+        ]
+      }
+    ],
+    "financing": {
+      "title": "Finansiering",
+      "paragraphs": [
+        "Vi tilbyr fleksible betalingsplaner for å gjøre Invisalign-behandlingen tilgjengelig for alle. Månedlige betalinger fra 1.500 kr per måned med 0% rente.",
+        "Under din første konsultasjon vil vi diskutere alle finansieringsalternativene og hjelpe deg med å finne den løsningen som passer best for deg."
+      ]
+    }
+  },
+  "faqs": {
+    "title": "Vanlige spørsmål om Invisalign",
+    "subtitle": "Her finner du svar på de vanligste spørsmålene om Invisalign-behandling.",
+    "items": [
+      {
+        "id": 1,
+        "question": "Hvor lang tid tar Invisalign-behandlingen?",
+        "answer": "Behandlingstiden varierer avhengig av kompleksiteten av ditt tilfelle. Invisalign Lite tar vanligvis 3-6 måneder, Invisalign Full tar 12-18 måneder, og Invisalign Comprehensive kan ta 18-24+ måneder. Din tannlege vil gi deg en nøyaktig tidsramme under konsultasjonen."
+      },
+      {
+        "id": 2,
+        "question": "Er Invisalign smertefullt?",
+        "answer": "De fleste pasienter opplever mild ubehag eller press de første dagene etter å ha byttet til en ny skinne. Dette er et tegn på at skinnene fungerer og flytter tennene dine. Ubehaget er vanligvis mye mindre enn med tradisjonell tannregulering og forsvinner raskt."
+      },
+      {
+        "id": 3,
+        "question": "Kan jeg spise og drikke med Invisalign?",
+        "answer": "Du må ta ut Invisalign-skinnene når du spiser eller drikker noe annet enn vann. Dette er faktisk en fordel sammenlignet med tradisjonell tannregulering, siden du ikke trenger å bekymre deg for matrester som setter seg fast eller restriksjoner på hva du kan spise."
+      },
+      {
+        "id": 4,
+        "question": "Hvordan rengjør jeg Invisalign-skinnene?",
+        "answer": "Skinnene bør rengjøres hver gang du tar dem ut. Bruk en tannbørste med romtemperert vann for å skrubbe dem forsiktig. Du kan også bruke Invisalign rengjøringsmiddel. Ikke bruk varmt vann da dette kan deformere plasten."
+      },
+      {
+        "id": 5,
+        "question": "Passer Invisalign for alle?",
+        "answer": "Invisalign kan behandle mange tannproblemer, men ikke alle tilfeller er egnet. Svært komplekse tilfeller kan kreve tradisjonell tannregulering. En konsultasjon med vår tannlege vil avgjøre om Invisalign er riktig for deg."
+      },
+      {
+        "id": 6,
+        "question": "Hvor ofte må jeg bytte skinner?",
+        "answer": "De fleste pasienter bytter til nye skinner hver 1-2 uke, avhengig av tannlegens anbefalinger. Dette sikrer optimal tannjustering og fremgang i behandlingen."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Klar for et rettere, vakrere smil?",
+    "description": "Bestill en Invisalign-konsultasjon hos Dident Tannklinikk i dag. Våre erfarne tannleger vil vurdere om Invisalign er riktig for deg og lage en personlig behandlingsplan.",
+    "buttonText": "Bestill konsultasjon nå",
+    "buttonUrl": "/booking"
+  }
+} 

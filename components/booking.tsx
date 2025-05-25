@@ -46,20 +46,13 @@ export default function Booking() {
 
   return (
     <section id="booking" className="w-full px-4 py-12 bg-primary/10">
-      <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6 border-2 border-red-500">
-        <h2 className="text-2xl font-bold mb-6 text-center">Bestill din gratis tannrens nå</h2>
-        <div className="flex items-center justify-center mb-4 text-red-500">
-          <AlertTriangle className="h-5 w-5 mr-2" />
-          <p className="font-semibold">Kun {remainingSlots} gratis tannrens igjen!</p>
-        </div>
-        <div className="flex justify-center items-center space-x-2 mb-6">
-          <Clock className="h-5 w-5 text-primary" />
-          <p>
-            Tilbudet utløper om: <span className="font-bold text-red-500">{formatTime(timeLeft)}</span>
-          </p>
+      <div className="max-w-md mx-auto bg-white rounded-lg shadow-lg p-6 border-2 border-primary">
+        <h2 className="text-2xl font-bold mb-6 text-center">Bestill din tannlegetime</h2>
+        <div className="flex items-center justify-center mb-4 text-primary">
+          <p className="font-medium">Vi tilbyr 30% rabatt for nye pasienter</p>
         </div>
         <BookingForm />
-        <p className="text-xs text-center text-gray-500 mt-4">* Begrenset tilbud. Bestill nå for å unngå skuffelse.</p>
+        <p className="text-xs text-center text-gray-500 mt-4">* Vi ser frem til å gi deg en god tannlegeopplevelse.</p>
       </div>
     </section>
   )

@@ -1,36 +1,25 @@
 "use client"
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Navbar } from '@/components/navigation/navbar';
+import { Footer } from '@/components/footer/footer';
 import { trackPageView } from '@/utils/tracking';
 
-export default function ClientLayout({ children }: { children: React.ReactNode }) {
+interface ClientLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function ClientLayout({ children }: ClientLayoutProps) {
   useEffect(() => {
-    // Test GA4
-    if (typeof window !== 'undefined' && (window as any).gtag) {
-      (window as any).gtag('event', 'test_event', {
-        event_category: 'testing',
-        event_label: 'GA4 Test',
-        value: 1
-      });
-      console.log('Test event sent to GA4');
-    }
-    
-    // Test Facebook Pixel
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'ViewContent', {
-        content_name: 'Landing Page View',
-        content_category: 'Landing Pages',
-        value: 1200.00,
-        currency: 'NOK'
-      });
-      console.log('Facebook Pixel test event sent');
-    } else {
-      console.error('Facebook Pixel not loaded');
-    }
-    
-    // Track initial page view
+    // Track initial page view only
     trackPageView(window.location.pathname);
   }, []);
-  
-  return <>{children}</>;
+
+  return (
+    <>
+      <Navbar />
+      {children}
+      <Footer />
+    </>
+  );
 } 

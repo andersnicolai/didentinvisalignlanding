@@ -1,6 +1,9 @@
+"use client";
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://dident-landing-api.azurewebsites.net';
 
-type TrackingEvent = {
+// Type definitions
+interface TrackEventOptions {
   event_name: string;
   event_id?: string;
   value?: number;
@@ -10,14 +13,13 @@ type TrackingEvent = {
   user_data?: {
     email?: string;
     phone?: string;
-    name?: string;
     firstName?: string;
     lastName?: string;
+    name?: string;
   };
   properties?: Record<string, any>;
-};
+}
 
-// Utvide med brukerdata
 interface UserSession {
   sessionId: string;
   startTime: number;
@@ -28,7 +30,6 @@ interface UserSession {
   path: string;
 }
 
-// Oppdaterte type-definisjoner for Clarity
 interface ClarityWindow extends Window {
   clarity?: Function;
   [key: string]: any;
@@ -41,124 +42,185 @@ interface HTMLScriptElement extends HTMLElement {
 
 declare const window: ClarityWindow;
 
-export const trackEvent = (event: TrackingEvent) => {
+/**
+ * Generic event tracking that sends events to both Google Analytics and Facebook Pixel
+ */
+export function trackEvent(options: TrackEventOptions): void {
   if (typeof window === 'undefined') return;
 
-  // Facebook Pixel - Forbedret med flere parametere
-  if ((window as any).fbq) {
-    console.log('Sending event to Facebook:', event.event_name, {
-      value: event.value,
-      currency: event.currency || 'NOK',
-      content_name: event.content_name,
-      content_category: event.content_category,
-      content_type: 'service',
-      content_ids: ['tannrens_gratis'],
-      delivery_category: 'in_person',
-      status: event.properties?.status || 'initiated',
-      service_type: event.properties?.service_type || 'tannrens',
-      is_free_service: event.properties?.is_free_service || true,
-      booking_date: event.properties?.booking_date,
-      booking_time: event.properties?.booking_time,
-      campaign_name: 'gratis_tannrens',
-      campaign_source: document.referrer || 'direct',
-      landing_page: window.location.href,
-      user_data: {
-        email: event.user_data?.email,
-        phone: event.user_data?.phone,
-        external_id: event.properties?.sessionId
-      }
-    });
-    
-    (window as any).fbq('track', event.event_name, {
-      value: event.value,
-      currency: event.currency || 'NOK',
-      content_name: event.content_name,
-      content_category: event.content_category,
-      content_type: 'service',
-      content_ids: ['tannrens_gratis'],
-      delivery_category: 'in_person',
-      status: event.properties?.status || 'initiated',
-      service_type: event.properties?.service_type || 'tannrens',
-      is_free_service: event.properties?.is_free_service || true,
-      booking_date: event.properties?.booking_date,
-      booking_time: event.properties?.booking_time,
-      campaign_name: 'gratis_tannrens',
-      campaign_source: document.referrer || 'direct',
-      landing_page: window.location.href,
-      user_data: {
-        email: event.user_data?.email,
-        phone: event.user_data?.phone,
-        external_id: event.properties?.sessionId
-      }
-    });
+  try {
+    // Facebook Pixel tracking
+    if ((window as any).fbq) {
+      (window as any).fbq('track', options.event_name, {
+        content_name: options.content_name,
+        content_category: options.content_category,
+        value: options.value,
+        currency: options.currency,
+        user_data: options.user_data ? {
+          em: options.user_data.email,
+          ph: options.user_data.phone,
+          fn: options.user_data.firstName,
+          ln: options.user_data.lastName,
+        } : undefined,
+        ...options.properties
+      });
+      console.log(`Facebook Pixel tracked: ${options.event_name}`);
+    }
+
+    // Google Analytics tracking
+    if ((window as any).gtag) {
+      (window as any).gtag('event', options.event_name, {
+        event_id: options.event_id,
+        value: options.value,
+        currency: options.currency,
+        content_name: options.content_name,
+        content_category: options.content_category,
+        user_data: options.user_data,
+        ...options.properties
+      });
+      console.log(`Google Analytics tracked: ${options.event_name}`);
+    }
+  } catch (error) {
+    console.error('Error tracking event:', error);
   }
+}
 
-  // Google Analytics
-  if ((window as any).gtag) {
-    (window as any).gtag('event', event.event_name, {
-      event_category: event.content_category,
-      event_label: event.content_name,
-      value: event.value,
-      currency: event.currency,
-      user_id: event.user_data?.email, // Anonymisert bruker-ID
-      booking_date: event.properties?.booking_date,
-      booking_time: event.properties?.booking_time,
-      service_type: event.properties?.service_type,
-      campaign: event.properties?.campaign,
-      source: event.properties?.source,
-      status: event.properties?.status,
-      send_to: process.env.NEXT_PUBLIC_GA_ID,
-      non_interaction: false
-    });
+/**
+ * Track page views - call this on route changes
+ */
+export function trackPageView(path: string): void {
+  if (typeof window === 'undefined') return;
+
+  try {
+    // Facebook Pixel page view
+    if ((window as any).fbq) {
+      (window as any).fbq('track', 'PageView', {
+        page_path: path,
+      });
+      console.log(`Facebook Pixel PageView tracked: ${path}`);
+    }
+
+    // Google Analytics page view
+    if ((window as any).gtag) {
+      // Send page_view event
+      (window as any).gtag('event', 'page_view', {
+        page_path: path,
+        page_title: document.title,
+        page_location: window.location.href,
+      });
+      
+      // Also update GA4 config for proper page tracking
+      (window as any).gtag('config', process.env.NEXT_PUBLIC_GA_ID, {
+        page_path: path,
+        page_title: document.title
+      });
+      
+      console.log(`Google Analytics PageView tracked: ${path}`);
+    }
+  } catch (error) {
+    console.error('Error tracking page view:', error);
   }
+}
 
-  // Hotjar
-  if ((window as any).hj) {
-    (window as any).hj('trigger', event.event_name);
-    (window as any).hj('identify', null, {
-      'booking_date': event.properties?.booking_date,
-      'service_type': 'tannrens',
-      'is_free_service': true
-    });
-  }
+/**
+ * Track lead capture events specifically
+ */
+export function trackLead(leadData: {
+  email: string;
+  phone?: string;
+  name?: string;
+  service?: string;
+  source?: string;
+  value?: number;
+}): void {
+  const [firstName, ...lastNameParts] = (leadData.name || '').split(' ');
+  const lastName = lastNameParts.join(' ');
 
-  // Server-side tracking med forbedret data og riktig API URL
-  const session: UserSession = {
-    sessionId: generateSessionId(),
-    startTime: Date.now(),
-    referrer: document.referrer,
-    userAgent: navigator.userAgent,
-    screenResolution: `${window.screen.width}x${window.screen.height}`,
-    device: getDeviceType(),
-    path: window.location.pathname
-  };
-
-  fetch(`${API_URL}/api/track/conversion`, {  // Bruker API_URL konstant
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
+  trackEvent({
+    event_name: 'Lead',
+    value: leadData.value || 1200, // Default value of a lead
+    currency: 'NOK',
+    content_name: leadData.service || 'General Inquiry',
+    content_category: 'Lead Generation',
+    user_data: {
+      email: leadData.email,
+      phone: leadData.phone,
+      firstName,
+      lastName,
+      name: leadData.name,
     },
-    body: JSON.stringify({
-      ...event,
-      session,
-      fbp: (document.cookie.match('_fbp=([^;]*)') || [])[1],
-      fbc: (document.cookie.match('_fbc=([^;]*)') || [])[1]
-    }),
-  }).catch(error => {
-    console.error('Failed to send server-side tracking:', error);
+    properties: {
+      lead_source: leadData.source || document.referrer || 'direct',
+      lead_type: leadData.service ? 'service_specific' : 'general',
+      landingPage: window.location.href,
+      campaign: new URLSearchParams(window.location.search).get('utm_campaign') || 'organic'
+    }
   });
-};
 
-// Session recording setup
-export const initializeTracking = () => {
+  // Also record the lead in localStorage for retargeting purposes
+  if (typeof localStorage !== 'undefined') {
+    try {
+      const leads = JSON.parse(localStorage.getItem('dident_leads') || '[]');
+      leads.push({
+        email: leadData.email,
+        timestamp: Date.now(),
+        service: leadData.service,
+      });
+      localStorage.setItem('dident_leads', JSON.stringify(leads));
+    } catch (e) {
+      console.error('Error saving lead to localStorage:', e);
+    }
+  }
+}
+
+/**
+ * Track appointments that are actually booked
+ */
+export function trackAppointment(appointmentData: {
+  email: string;
+  phone?: string;
+  name?: string;
+  service: string;
+  date: string;
+  time: string;
+  value?: number;
+}): void {
+  trackEvent({
+    event_name: 'Schedule',
+    value: appointmentData.value || 2500, // Higher value for a confirmed appointment
+    currency: 'NOK',
+    content_name: appointmentData.service,
+    content_category: 'Appointment',
+    user_data: {
+      email: appointmentData.email,
+      phone: appointmentData.phone,
+      name: appointmentData.name,
+    },
+    properties: {
+      appointment_date: appointmentData.date,
+      appointment_time: appointmentData.time,
+      service_type: appointmentData.service,
+      landingPage: window.location.href,
+    }
+  });
+}
+
+/**
+ * Initialize tracking tools
+ */
+export function initializeTracking(): void {
   if (typeof window === 'undefined') return;
-  // Vi kan legge til Clarity her senere
+  // We can add Clarity or other tools here later
+}
+
+/**
+ * Helper functions
+ */
+const generateSessionId = (): string => {
+  return Math.random().toString(36).substring(2, 15);
 };
 
-// Helpers
-const generateSessionId = () => Math.random().toString(36).substring(2, 15);
-
-const getDeviceType = () => {
+const getDeviceType = (): string => {
   const ua = navigator.userAgent;
   if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
     return "tablet";
@@ -169,7 +231,10 @@ const getDeviceType = () => {
   return "desktop";
 };
 
-export const trackPageView = (url: string) => {
+/**
+ * Helper function for direct GA4 page view tracking (simpler version)
+ */
+export const trackPageViewGA = (url: string) => {
   if (typeof window === 'undefined' || !(window as any).gtag) return;
   
   (window as any).gtag('config', process.env.NEXT_PUBLIC_GA_ID, {

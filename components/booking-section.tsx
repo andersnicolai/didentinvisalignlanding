@@ -15,7 +15,7 @@ export const BookingSection = () => {
                        rounded-lg font-semibold text-lg
                        active:scale-95 transition-transform"
           >
-            Book Gratis Tannrens
+            Book Tannlegetime
           </button>
         )}
 

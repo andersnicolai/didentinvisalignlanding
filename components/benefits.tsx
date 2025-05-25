@@ -13,7 +13,7 @@ export default function Benefits() {
     <section className="w-full py-12 bg-[#F4EBDA]">
       <div className="max-w-4xl mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-8 text-[#2c513d]">
-          Hvorfor velge vår gratis tannrens?
+          Hvorfor velge vår profesjonelle tannbehandling?
         </h2>
         <ul className="space-y-4">
           {benefits.map((benefit, index) => (

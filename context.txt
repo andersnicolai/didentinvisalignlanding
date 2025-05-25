@@ -1,13 +1,12 @@
-
 Opprett en landingsside for tannlegeklinikken Dident
 
 Designet skal være enkelt og optimalisert for mobil.
 Fokuset er en effektiv click funnel for å konvertere besøkende til kunder.
-Hovedtilbudet: Gratis tannrens – med en følelse av hastverk og eksklusivitet.
+Hovedtilbudet: 30% rabatt på første undersøkelse for nye pasienter – med profesjonell og eksklusiv fremtoning.
 Innhold:
 
-Hvorfor tannrens er viktig – forklar kort fordelene, som bedre munnhelse, friskere pust og hvitere tenner.
-Fordeler med tannrens hos Dident – trygge, erfarne tannleger og topp moderne utstyr.
+Hvorfor regelmessige tannundersøkelser er viktige – forklar kort fordelene, som bedre munnhelse, forebygging av problemer og et friskere smil.
+Fordeler med behandling hos Dident – trygge, erfarne tannleger og topp moderne utstyr.
 Tips og triks for god tannhygiene – enkle vaner som gir sunnere tenner.
-Enkel booking – en knapp for rask timebestilling med en nedtelling eller sosial bevis (f.eks. "Kun 3 gratis tannrens igjen i dag!").
-Målet er å skape en sense of urgency ved å fremheve at Dident allerede har gitt bort flere gratis tannrens og at det er begrenset tilgjengelighet.
+Enkel booking – en knapp for rask timebestilling med tydelig verditilbud (f.eks. "30% rabatt for nye pasienter").
+Målet er å skape en kvalitetsfølelse og tiltrekke pasienter som er på utkikk etter profesjonell tannlegebehandling med god verdi.

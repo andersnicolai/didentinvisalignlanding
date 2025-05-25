@@ -1,0 +1,207 @@
+{
+  "metadata": {
+    "title": "Tannimplantat | Dident Tannklinikk Oslo",
+    "description": "Erstatt manglende tenner med tannimplantater hos Dident Tannklinikk i Oslo. Naturlig utseende, langvarig løsning for et komplett smil.",
+    "keywords": "tannimplantat, tannimplantater, manglende tenner, tannerstatning, tannlege, oslo, tannprotese, tannklinikk"
+  },
+  "hero": {
+    "title": "Tannimplantat",
+    "description": "Få tilbake et naturlig og komplett smil med tannimplantater. Våre implantater ser ut og føles som ekte tenner, gir deg tyggekomfort og er designet for å vare livet ut.",
+    "image": "/images/treatments/implant-hero.jpg",
+    "primaryButtonText": "Bestill konsultasjon",
+    "primaryButtonUrl": "/booking",
+    "secondaryButtonText": "Les mer om behandlingen",
+    "secondaryButtonUrl": "#about"
+  },
+  "about": {
+    "title": "Hva er tannimplantater?",
+    "paragraphs": [
+      "Tannimplantater er den mest moderne og effektive måten å erstatte manglende tenner på. Et implantat består av en titanskrue som fungerer som en kunstig tannrot, en distanse (kobling) og en tannkrone som ser ut og fungerer som en naturlig tann.",
+      "Titanskruen festes kirurgisk i kjevebenet hvor den gror sammen med benet i en prosess kalt osseointegrasjon. Dette gir et stabilt fundament for den kunstige tannen og stimulerer kjevebenet, noe som forhindrer bentap som ellers vil skje når en tann mangler.",
+      "Hos Dident Tannklinikk bruker vi kun implantatsystemer av høyeste kvalitet med dokumentert lang levetid. Våre erfarne spesialister sørger for at hele prosessen fra planlegging til ferdig resultat blir trygg, komfortabel og vellykket."
+    ],
+    "image": "/images/treatments/implant-what.jpg"
+  },
+  "benefits": {
+    "title": "Fordeler med tannimplantater",
+    "subtitle": "Tannimplantater er den foretrukne løsningen for erstatning av manglende tenner, med mange fordeler sammenlignet med tradisjonelle alternativer.",
+    "items": [
+      {
+        "id": 1,
+        "title": "Naturlig utseende",
+        "description": "Tannimplantater ser ut og føles som naturlige tenner, med skreddersydde kroner som matcher dine eksisterende tenner."
+      },
+      {
+        "id": 2,
+        "title": "Langvarig løsning",
+        "description": "Med riktig vedlikehold kan implantater vare livet ut, i motsetning til broer og proteser som må byttes regelmessig."
+      },
+      {
+        "id": 3,
+        "title": "Bevarer kjevebenet",
+        "description": "Implantater stimulerer kjevebenet og forhindrer benvev fra å forsvinne, noe som bevarer ansiktsform og forhindrer aldringsprosessen."
+      },
+      {
+        "id": 4,
+        "title": "Normal tyggefunksjon",
+        "description": "Du kan spise alle typer mat uten begrensninger, da implantater gir samme tyggestyrke som naturlige tenner."
+      },
+      {
+        "id": 5,
+        "title": "Ingen påvirkning på nabotenner",
+        "description": "I motsetning til broer, krever ikke implantater at friske nabotenner slipes ned for støtte."
+      },
+      {
+        "id": 6,
+        "title": "Forbedret livskvalitet",
+        "description": "Et komplett smil uten løse proteser gir økt selvtillit, bedre taleevne og forbedret livskvalitet generelt."
+      }
+    ]
+  },
+  "treatmentProcess": {
+    "title": "Behandlingsprosessen",
+    "subtitle": "Tannimplantatbehandling hos Dident er en grundig og veloverveid prosess for å sikre best mulig resultat.",
+    "steps": [
+      {
+        "id": 1,
+        "title": "Konsultasjon og vurdering",
+        "description": "Vi starter med en omfattende undersøkelse som inkluderer 3D-røntgen for å vurdere kjevebenet og omkringliggende strukturer. Dette gir oss mulighet til å planlegge implantatplasseringen presist.",
+        "additionalInfo": "Under konsultasjonen diskuterer vi dine ønsker, gjennomgår behandlingsalternativer og lager en individuell behandlingsplan.",
+        "image": "/images/treatments/implant-step1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "Implantatkirurgi",
+        "description": "Under lokalbedøvelse plasseres titanskruen kirurgisk i kjevebenet. Vi bruker datastyrt implantatkirurgi for høyest presisjon og minimal invasivitet.",
+        "additionalInfo": "Prosedyren er vanligvis mindre ubehagelig enn mange forventer, og de fleste pasienter kan returnere til normale aktiviteter dagen etter.",
+        "image": "/images/treatments/implant-step2.jpg"
+      },
+      {
+        "id": 3,
+        "title": "Osseointegrasjon",
+        "description": "Etter at implantatet er plassert, vil det vokse sammen med kjevebenet i en prosess som kalles osseointegrasjon. Denne prosessen tar vanligvis 2-6 måneder, avhengig av din bentetthet og generelle helse.",
+        "additionalInfo": "I noen tilfeller kan vi plassere en midlertidig tann på implantatet i denne perioden, slik at du ikke trenger å gå med synlig manglende tann.",
+        "image": "/images/treatments/implant-step3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "Plassering av distanse",
+        "description": "Når osseointegrationen er komplett, festes en distanse (kobling) til implantatet. Dette er komponenten som vil holde den permanente tannkronen.",
+        "additionalInfo": "Vi tar også avtrykk av dine tenner på dette stadiet for å kunne lage en perfekt tilpasset krone.",
+        "image": "/images/treatments/implant-step4.jpg"
+      },
+      {
+        "id": 5,
+        "title": "Plassering av permanent krone",
+        "description": "Den skreddersydde porselenskronen festes til distansen, fullføring behandlingen. Kronen er designet for å matche dine naturlige tenner i farge, form og funksjon.",
+        "additionalInfo": "Vi justerer kronen nøye for å sikre riktig bitt og optimal estetikk, og gir deg instruksjoner for langsiktig vedlikehold.",
+        "image": "/images/treatments/implant-step5.jpg"
+      }
+    ]
+  },
+  "pricing": {
+    "title": "Priser for tannimplantater",
+    "subtitle": "Vi tilbyr konkurransedyktige priser for høykvalitets implantatbehandling. Alle priser inkluderer konsultasjon, implantatsystem og oppfølging.",
+    "options": [
+      {
+        "id": 1,
+        "title": "Enkelt implantat",
+        "description": "Ett implantat med krone for å erstatte en manglende tann.",
+        "price": 25000,
+        "priceDescription": "Komplett behandling",
+        "popular": true,
+        "features": [
+          "Konsultasjon og 3D-røntgen",
+          "Premium implantatsystem",
+          "Kirurgisk plassering",
+          "Porselenskrone",
+          "All nødvendig oppfølging",
+          "5 års garanti"
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Flere implantater",
+        "description": "To eller flere implantater for å erstatte flere tenner.",
+        "price": 22000,
+        "priceDescription": "Per implantat",
+        "popular": false,
+        "features": [
+          "Rabattert pris per implantat",
+          "Konsultasjon og 3D-røntgen",
+          "Premium implantatsystem",
+          "Kirurgisk plassering",
+          "Porselenskroner",
+          "All nødvendig oppfølging",
+          "5 års garanti"
+        ]
+      },
+      {
+        "id": 3,
+        "title": "All-on-4 / All-on-6",
+        "description": "Komplett tannerstatning med fire eller seks implantater.",
+        "price": 120000,
+        "priceDescription": "Per kjeve",
+        "popular": false,
+        "features": [
+          "Komplett tannerstatning for hele kjeven",
+          "Fast, permanent løsning",
+          "4-6 implantater",
+          "Midlertidig protese samme dag",
+          "Permanent protese i høykvalitetsmateriale",
+          "Livslang oppfølging",
+          "10 års garanti"
+        ]
+      }
+    ],
+    "financing": {
+      "title": "Finansiering",
+      "paragraphs": [
+        "Vi forstår at implantatbehandling representerer en betydelig investering. Vi tilbyr derfor fleksible betalingsplaner som gjør behandlingen mer tilgjengelig, med rentefrie alternativer og månedlige avdrag fra 1.000 kr.",
+        "Mange forsikringer dekker deler av implantatbehandling, spesielt hvis tannmangel skyldes ulykke eller sykdom. Vi hjelper deg gjerne med å undersøke din forsikringsdekning."
+      ]
+    }
+  },
+  "faqs": {
+    "title": "Vanlige spørsmål om tannimplantater",
+    "subtitle": "Her finner du svar på de vanligste spørsmålene om implantatbehandling.",
+    "items": [
+      {
+        "id": 1,
+        "question": "Er det smertefullt å få tannimplantater?",
+        "answer": "Implantatkirurgi utføres under lokalbedøvelse, og de fleste pasienter opplever minimal ubehag under prosedyren. Etterpå kan det være noe hevelse og ømhet, men dette kan vanligvis håndteres godt med vanlige smertestillende. De fleste pasienter rapporterer at prosedyren var mye mindre ubehagelig enn de forventet."
+      },
+      {
+        "id": 2,
+        "question": "Hvor lang tid tar hele implantatprosessen?",
+        "answer": "Den totale behandlingstiden varierer fra 3-9 måneder, avhengig av din spesifikke situasjon. Hovedfaktoren som påvirker tidslinjen er tilhelingstiden etter implantatplassering (osseointegrasjon), som vanligvis tar 2-6 måneder. I noen tilfeller kan vi bruke protokoller for umiddelbar belastning, hvor midlertidige tenner plasseres samme dag som implantatet."
+      },
+      {
+        "id": 3,
+        "question": "Hvor lenge varer tannimplantater?",
+        "answer": "Med riktig vedlikehold kan selve titanskruen vare livet ut hos de fleste pasienter. Porselenskroner kan trenge utskifting etter 10-15 år, avhengig av slitasje. Regelmessige tannlegebesøk og god hjemmehygiene er avgjørende for implantatets langsiktige suksess."
+      },
+      {
+        "id": 4,
+        "question": "Kan alle få tannimplantater?",
+        "answer": "De fleste voksne med god generell helse er kandidater for implantater. Faktorer som kan påvirke egnethet inkluderer bentetthet, røyking, visse medisinske tilstander og autoimmune sykdommer. Vi gjør alltid en grundig vurdering for å avgjøre om implantater er riktig for deg, og i noen tilfeller kan forberedende behandlinger som benoppbygging være nødvendig."
+      },
+      {
+        "id": 5,
+        "question": "Hvordan vedlikeholder jeg tannimplantater?",
+        "answer": "Tannimplantater krever samme vedlikehold som naturlige tenner: regelmessig tannpuss, bruk av tanntråd, og profesjonell rengjøring hos tannlege minst to ganger årlig. Selv om implantater ikke kan få hull, kan vevet rundt dem bli betent hvis de ikke holdes rene, noe som kan føre til periimplantitt og implantatsvikt."
+      },
+      {
+        "id": 6,
+        "question": "Hva er forskjellen mellom implantater og tannbroer?",
+        "answer": "Implantater erstatter tannroten og krever ikke støtte fra nabotenner, mens broer festes til nabotenner som må slipes ned. Implantater bevarer kjevebenet og varer vanligvis lengre enn broer. Implantater er også enklere å holde rene siden de kan pusses og bruke tanntråd på som vanlige tenner."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Klar for et komplett, naturlig smil?",
+    "description": "Bestill en konsultasjon for tannimplantater hos Dident Tannklinikk i dag. Våre spesialister vil vurdere dine behov og hjelpe deg med å gjenvinne et funksjonelt og vakkert smil.",
+    "buttonText": "Bestill konsultasjon nå",
+    "buttonUrl": "/booking"
+  }
+} 

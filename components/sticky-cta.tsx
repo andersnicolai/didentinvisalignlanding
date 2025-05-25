@@ -38,7 +38,7 @@ export default function StickyCTA() {
         className="w-full bg-[#2c513d] hover:bg-[#1a2f24] transition-colors text-white font-medium"
         size="lg"
       >
-        Book din gratis tannrens nå
+        Book tannlegetime nå
         <ArrowRight className="ml-2 h-5 w-5" />
       </Button>
     </div>
