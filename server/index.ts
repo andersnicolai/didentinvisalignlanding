@@ -16,6 +16,7 @@ import dotenv from 'dotenv';
 import { config } from 'dotenv';
 import { leadsRouter } from './routes/leads';
 import { trackConversionRouter } from './routes/track-conversion';
+import { bookingRouter } from './routes/booking';
 
 // Last inn miljøvariabler
 config();
@@ -243,6 +244,11 @@ app.post('/api/v1/leads/track', async (req, res) => {
     });
   }
 });
+
+// Mount routers
+app.use('/api/leads', leadsRouter);
+app.use('/api/booking', bookingRouter);
+app.use('/api/track-conversion', trackConversionRouter);
 
 // Start the server
 app.listen(port, () => {
