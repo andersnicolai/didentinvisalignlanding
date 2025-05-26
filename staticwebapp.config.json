@@ -1,14 +1,7 @@
 {
-  "routes": [
-    {
-      "route": "/*",
-      "serve": "/404.html",
-      "statusCode": 404
-    }
-  ],
   "navigationFallback": {
-    "rewrite": "/404.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/_next/*", "/favicon/*"]
+    "rewrite": "/index.html",
+    "exclude": ["/images/*.{png,jpg,gif,svg}", "/_next/*", "/favicon/*", "*.{css,js,woff,woff2,ttf,eot,svg,png,jpg,jpeg,gif,ico}"]
   },
   "mimeTypes": {
     ".json": "application/json"
