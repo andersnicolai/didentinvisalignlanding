@@ -28,7 +28,7 @@ export default function ExitIntentPopup({
   const [isSuccess, setIsSuccess] = useState(false)
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
-  const [phone, setPhone] = useState("")
+
   const [error, setError] = useState("")
   
   useEffect(() => {
@@ -72,7 +72,6 @@ export default function ExitIntentPopup({
       // Track the lead client-side
       trackLead({
         email,
-        phone,
         name,
         service: treatment,
         source: 'exit_intent_popup'
@@ -91,7 +90,6 @@ export default function ExitIntentPopup({
         body: JSON.stringify({
           name,
           email,
-          phone,
           treatment,
           source: 'exit_intent_popup',
           landingPage: window.location.href,
@@ -205,18 +203,7 @@ export default function ExitIntentPopup({
                       />
                     </div>
                     
-                    <div>
-                      <Label htmlFor="exit-phone">Telefon</Label>
-                      <Input
-                        id="exit-phone"
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="12345678"
-                        required
-                        disabled={isSubmitting}
-                      />
-                    </div>
+
                     
                     <Button 
                       type="submit" 

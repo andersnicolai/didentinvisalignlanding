@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin } from "lucide-react"
+import { Mail, MapPin } from "lucide-react"
 
 export default function Footer() {
   return (
@@ -10,16 +10,10 @@ export default function Footer() {
             <h2 className="text-2xl font-bold mb-6">Kontakt Dident</h2>
             <div className="space-y-4">
               <div className="flex items-center group">
-                <Phone className="h-5 w-5 mr-3 group-hover:text-[#F4EBDA] transition-colors" />
-                <a href="tel:+4794095643" className="hover:text-[#F4EBDA] transition-colors">
-                  +47 940 95 643
-                </a>
-              </div>
-              <div className="flex items-center group">
                 <Mail className="h-5 w-5 mr-3 group-hover:text-[#F4EBDA] transition-colors" />
-                <a href="mailto:info@dident.no" className="hover:text-[#F4EBDA] transition-colors">
-                  info@dident.no
-                </a>
+                <span className="text-[#F4EBDA]">
+                  Alle henvendelser håndteres gjennom vårt online bookingsystem
+                </span>
               </div>
               <div className="flex items-center group">
                 <MapPin className="h-5 w-5 mr-3 group-hover:text-[#F4EBDA] transition-colors" />

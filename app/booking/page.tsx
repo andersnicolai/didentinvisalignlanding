@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import BookingForm from "@/components/booking-form";
 import { Navbar } from "@/components/navigation/navbar";
 import { Footer } from "@/components/footer/footer";
-import { PhoneIcon, CalendarIcon, ClockIcon, MessageSquareIcon } from "lucide-react";
+import { CalendarIcon, ClockIcon, MessageSquareIcon } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Bestill Time | Dident Tannklinikk Oslo",
@@ -45,16 +45,14 @@ export default function BookingPage() {
                 <div className="bg-gray-50 rounded-lg p-6 shadow-sm">
                   <div className="space-y-6">
                     <div className="flex items-start">
-                      <PhoneIcon className="h-6 w-6 text-blue-600 mt-1 mr-4 flex-shrink-0" />
+                      <MessageSquareIcon className="h-6 w-6 text-blue-600 mt-1 mr-4 flex-shrink-0" />
                       <div>
-                        <h3 className="font-medium text-gray-900">Telefon</h3>
+                        <h3 className="font-medium text-gray-900">Online booking</h3>
                         <p className="text-gray-600 mt-1">
-                          <a href="tel:+4722230303" className="hover:text-blue-600">
-                            22 23 03 03
-                          </a>
+                          Alle timebestillinger håndteres gjennom vårt online system
                         </p>
                         <p className="text-sm text-gray-500 mt-1">
-                          Ring oss direkte hvis du foretrekker å bestille time over telefon
+                          Fyll ut skjemaet til venstre for å bestille time
                         </p>
                       </div>
                     </div>
@@ -118,7 +116,7 @@ export default function BookingPage() {
                   <h3 className="font-medium text-gray-900 mb-2">Akutt tannbehandling</h3>
                   <p className="text-gray-600 text-sm mb-4">
                     Har du akutte smerter eller et tannproblem som krever øyeblikkelig hjelp? 
-                    Ring oss på <a href="tel:+4722230303" className="text-blue-600 hover:underline">22 23 03 03</a> 
+                    Bruk vårt online bookingsystem og merk "akutt" som behandlingstype 
                     for prioritert behandling.
                   </p>
                   <p className="text-gray-600 text-sm">
