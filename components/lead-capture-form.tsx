@@ -61,7 +61,7 @@ export default function LeadCaptureForm({
       }
       
       // Send to our leads API
-      const response = await fetch('/api/leads', {
+      const response = await fetch('https://dident-landing-api.azurewebsites.net/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

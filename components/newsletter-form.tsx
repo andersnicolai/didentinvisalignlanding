@@ -17,7 +17,7 @@ export function NewsletterForm() {
     setError('');
 
     try {
-      const response = await fetch('/api/newsletter', {
+      const response = await fetch('https://dident-landing-api.azurewebsites.net/api/newsletter', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

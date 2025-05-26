@@ -11,24 +11,9 @@ type BlogPostProps = {
 
 // Generate static params for all blog posts
 export async function generateStaticParams() {
-  try {
-    const vekstBoost = createVekstBoost({
-      siteId: 'dident-tannklinikk',
-      apiKey: process.env.NEXT_PUBLIC_VEKSTBOOST_API_KEY || 'demo-key',
-      language: 'no',
-    });
-    
-    await vekstBoost.initialize();
-    const posts = await vekstBoost.getLatestContent('blog', 50);
-    
-    return posts.map((post) => ({
-      slug: post.slug,
-    }));
-  } catch (error) {
-    console.error('Failed to generate static params for blog posts:', error);
-    // Return empty array if there's an error, so the build doesn't fail
-    return [];
-  }
+  // For static export, we'll return an empty array since blog posts are dynamic
+  // This allows the build to succeed, and pages will be generated on-demand
+  return [];
 }
 
 type BlogPost = {

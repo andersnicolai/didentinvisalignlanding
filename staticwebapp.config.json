@@ -1,21 +1,14 @@
 {
-  "platform": {
-    "apiRuntime": "node:18"
-  },
   "routes": [
     {
-      "route": "/api/*",
-      "allowedRoles": ["anonymous"]
-    },
-    {
       "route": "/*",
-      "serve": "/index.html",
-      "statusCode": 200
+      "serve": "/404.html",
+      "statusCode": 404
     }
   ],
   "navigationFallback": {
-    "rewrite": "/index.html",
-    "exclude": ["/images/*.{png,jpg,gif,svg}", "/api/*"]
+    "rewrite": "/404.html",
+    "exclude": ["/images/*.{png,jpg,gif,svg}", "/_next/*", "/favicon/*"]
   },
   "mimeTypes": {
     ".json": "application/json"

@@ -82,7 +82,7 @@ export default function ExitIntentPopup({
       const fbp = (document.cookie.match('(^|;)\\s*_fbp\\s*=\\s*([^;]+)') || [])[2] || ''
       
       // Send to our leads API
-      const response = await fetch('/api/leads', {
+      const response = await fetch('https://dident-landing-api.azurewebsites.net/api/leads', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

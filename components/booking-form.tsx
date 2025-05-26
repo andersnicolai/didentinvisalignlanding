@@ -167,7 +167,7 @@ export default function BookingForm() {
       setIsSubmitting(true);
       
       // Send to Discord via API
-      const response = await fetch('/api/booking', {
+      const response = await fetch('https://dident-landing-api.azurewebsites.net/api/booking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
