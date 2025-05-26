@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon, CheckCircleIcon } from "lucide-react";
 import Link from "next/link";
@@ -22,6 +22,10 @@ export function BookingForm() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSelectChange = (name: string) => (value: string) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
@@ -147,21 +151,18 @@ export function BookingForm() {
               
               <div>
                 <Label htmlFor="treatment">Ønsket behandling</Label>
-                <Select
-                  id="treatment"
-                  name="treatment"
-                  value={formData.treatment}
-                  onChange={handleChange as any}
-                  required
-                  className="mt-1"
-                >
-                  <option value="" disabled>Velg behandling</option>
-                  <option value="invisalign">Invisalign</option>
-                  <option value="tannbleking">Tannbleking</option>
-                  <option value="tannimplantat">Tannimplantat</option>
-                  <option value="tannrens">Tannrens</option>
-                  <option value="konsultasjon">Generell konsultasjon</option>
-                  <option value="akutt">Akutt tannbehandling</option>
+                <Select value={formData.treatment} onValueChange={handleSelectChange("treatment")}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Velg behandling" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="invisalign">Invisalign</SelectItem>
+                    <SelectItem value="tannbleking">Tannbleking</SelectItem>
+                    <SelectItem value="tannimplantat">Tannimplantat</SelectItem>
+                    <SelectItem value="tannrens">Tannrens</SelectItem>
+                    <SelectItem value="konsultasjon">Generell konsultasjon</SelectItem>
+                    <SelectItem value="akutt">Akutt tannbehandling</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
             </div>
@@ -193,25 +194,22 @@ export function BookingForm() {
               
               <div>
                 <Label htmlFor="time">Ønsket tidspunkt</Label>
-                <Select
-                  id="time"
-                  name="time"
-                  value={formData.time}
-                  onChange={handleChange as any}
-                  required
-                  className="mt-1"
-                >
-                  <option value="" disabled>Velg tidspunkt</option>
-                  <option value="08:00">08:00</option>
-                  <option value="09:00">09:00</option>
-                  <option value="10:00">10:00</option>
-                  <option value="11:00">11:00</option>
-                  <option value="12:00">12:00</option>
-                  <option value="13:00">13:00</option>
-                  <option value="14:00">14:00</option>
-                  <option value="15:00">15:00</option>
-                  <option value="16:00">16:00</option>
-                  <option value="17:00">17:00</option>
+                <Select value={formData.time} onValueChange={handleSelectChange("time")}>
+                  <SelectTrigger className="mt-1">
+                    <SelectValue placeholder="Velg tidspunkt" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="08:00">08:00</SelectItem>
+                    <SelectItem value="09:00">09:00</SelectItem>
+                    <SelectItem value="10:00">10:00</SelectItem>
+                    <SelectItem value="11:00">11:00</SelectItem>
+                    <SelectItem value="12:00">12:00</SelectItem>
+                    <SelectItem value="13:00">13:00</SelectItem>
+                    <SelectItem value="14:00">14:00</SelectItem>
+                    <SelectItem value="15:00">15:00</SelectItem>
+                    <SelectItem value="16:00">16:00</SelectItem>
+                    <SelectItem value="17:00">17:00</SelectItem>
+                  </SelectContent>
                 </Select>
               </div>
               

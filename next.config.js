@@ -1,8 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',  // Enable static export
   images: {
-    unoptimized: true // Needed for static export
+    domains: ['images.unsplash.com', 'cdn.sanity.io'], // Add allowed image domains
   }
 }
 

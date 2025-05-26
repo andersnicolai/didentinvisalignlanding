@@ -1,6 +1,3 @@
-'use client';
-
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { createVekstBoost } from '@/lib/vekstboost';
@@ -11,6 +8,28 @@ type BlogPostProps = {
     slug: string;
   };
 };
+
+// Generate static params for all blog posts
+export async function generateStaticParams() {
+  try {
+    const vekstBoost = createVekstBoost({
+      siteId: 'dident-tannklinikk',
+      apiKey: process.env.NEXT_PUBLIC_VEKSTBOOST_API_KEY || 'demo-key',
+      language: 'no',
+    });
+    
+    await vekstBoost.initialize();
+    const posts = await vekstBoost.getLatestContent('blog', 50);
+    
+    return posts.map((post) => ({
+      slug: post.slug,
+    }));
+  } catch (error) {
+    console.error('Failed to generate static params for blog posts:', error);
+    // Return empty array if there's an error, so the build doesn't fail
+    return [];
+  }
+}
 
 type BlogPost = {
   id: string;
@@ -32,59 +51,47 @@ type BlogPost = {
   }[];
 };
 
-export default function BlogPostPage({ params }: BlogPostProps) {
-  const [post, setPost] = useState<BlogPost | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+export default async function BlogPostPage({ params }: BlogPostProps) {
+  let post: BlogPost | null = null;
   
-  useEffect(() => {
-    const fetchBlogPost = async () => {
-      setLoading(true);
-      try {
-        const vekstBoost = createVekstBoost({
-          siteId: 'dident-tannklinikk',
-          apiKey: process.env.NEXT_PUBLIC_VEKSTBOOST_API_KEY || 'demo-key',
-          language: 'no',
-        });
-        
-        await vekstBoost.initialize();
-        
-        // For the demo, we'll simulate fetching a specific post
-        // In production, this would call a specific API endpoint
-        const allPosts = await vekstBoost.getLatestContent('blog', 20);
-        const foundPost = allPosts.find(p => p.slug === params.slug);
-        
-        if (!foundPost) {
-          notFound();
-        }
-        
-        setPost(foundPost);
-      } catch (err) {
-        console.error('Failed to fetch blog post:', err);
-        setError('Could not load the blog post. Please try again later.');
-      } finally {
-        setLoading(false);
-      }
-    };
+  try {
+    const vekstBoost = createVekstBoost({
+      siteId: 'dident-tannklinikk',
+      apiKey: process.env.NEXT_PUBLIC_VEKSTBOOST_API_KEY || 'demo-key',
+      language: 'no',
+    });
     
-    fetchBlogPost();
-  }, [params.slug]);
-  
-  if (loading) {
+    await vekstBoost.initialize();
+    
+    // For the demo, we'll simulate fetching a specific post
+    // In production, this would call a specific API endpoint
+    const allPosts = await vekstBoost.getLatestContent('blog', 20);
+    const foundPost = allPosts.find(p => p.slug === params.slug);
+    
+    if (!foundPost) {
+      notFound();
+    }
+    
+    post = foundPost;
+  } catch (err) {
+    console.error('Failed to fetch blog post:', err);
     return (
       <div className="container mx-auto px-4 py-12">
-        <div className="flex justify-center items-center py-24">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="text-center py-24">
+          <p className="text-red-500">Could not load the blog post. Please try again later.</p>
+          <Link href="/blog" className="text-blue-600 hover:underline mt-4 inline-block">
+            Back to Blog
+          </Link>
         </div>
       </div>
     );
   }
   
-  if (error || !post) {
+  if (!post) {
     return (
       <div className="container mx-auto px-4 py-12">
         <div className="text-center py-24">
-          <p className="text-red-500">{error || 'Blog post not found'}</p>
+          <p className="text-red-500">Blog post not found</p>
           <Link href="/blog" className="text-blue-600 hover:underline mt-4 inline-block">
             Back to Blog
           </Link>
@@ -113,7 +120,7 @@ export default function BlogPostPage({ params }: BlogPostProps) {
           
           {post.categories && post.categories.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-2">
-              {post.categories.map((category) => (
+              {post.categories.map((category: string) => (
                 <span 
                   key={category}
                   className="text-xs font-medium px-2.5 py-0.5 rounded bg-blue-100 text-blue-800"
