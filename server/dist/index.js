@@ -1,37 +1,249 @@
 "use strict";
+/**
+ * VekstBoost API Server
+ *
+ * This is a simple Express-based API server that handles the backend
+ * functionality for VekstBoost Growth Engine.
+ *
+ * It provides endpoints for content generation, lead tracking, and Discord webhook integration.
+ */
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
+const client_1 = require("@notionhq/client");
+const openai_1 = __importDefault(require("openai"));
+const axios_1 = __importDefault(require("axios"));
 const dotenv_1 = require("dotenv");
 const leads_1 = require("./routes/leads");
 const track_conversion_1 = require("./routes/track-conversion");
+const booking_1 = require("./routes/booking");
+// Last inn miljøvariabler
 (0, dotenv_1.config)();
+// Verifiser nødvendige miljøvariabler (kun for VekstBoost funksjonalitet)
+const requiredEnvVars = ['FB_ACCESS_TOKEN', 'FB_PIXEL_ID'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+if (missingEnvVars.length > 0) {
+    console.warn('Missing Facebook environment variables:', missingEnvVars);
+    console.warn('VekstBoost tracking features will be disabled, but booking will work');
+}
 const app = (0, express_1.default)();
-const port = process.env.PORT || 3000;
-app.use((0, cors_1.default)({
-    origin: process.env.CORS_ORIGIN,
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Accept', 'Origin', 'X-Requested-With']
-}));
+const port = process.env.PORT || 3001;
+// Middleware
+app.use((0, cors_1.default)());
 app.use(express_1.default.json());
-// Legg til debugging middleware
-app.use((req, res, next) => {
-    console.log(`${req.method} ${req.path}`);
-    next();
+// Initialize OpenAI client
+const openai = new openai_1.default({
+    apiKey: process.env.OPENAI_API_KEY,
 });
-app.get('/api/health', (req, res) => {
-    console.log('Health check endpoint hit');
-    res.json({ status: 'API is running' });
+// Initialize Notion client (for storing content)
+const notion = new client_1.Client({
+    auth: process.env.NOTION_API_KEY,
 });
-app.use('/api/track-conversion', track_conversion_1.trackConversionRouter);
+// Routes
+app.post('/api/v1/connect', async (req, res) => {
+    try {
+        const { siteId, contentTypes, industries, language } = req.body;
+        // Register the site in our database
+        console.log(`Registering site: ${siteId}`);
+        // In a real implementation, we would store this in a database
+        // For now, we'll just return success
+        res.json({
+            success: true,
+            message: 'Site registered successfully',
+            siteId,
+        });
+    }
+    catch (error) {
+        console.error('Error connecting site:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to register site',
+        });
+    }
+});
+app.post('/api/v1/integrations/discord', async (req, res) => {
+    try {
+        const { siteId, webhookUrl } = req.body;
+        // Store the Discord webhook URL for this site
+        console.log(`Setting up Discord webhook for site: ${siteId}`);
+        // In a real implementation, we would store this in a database
+        res.json({
+            success: true,
+            message: 'Discord webhook configured',
+        });
+    }
+    catch (error) {
+        console.error('Error setting up Discord webhook:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to configure Discord webhook',
+        });
+    }
+});
+app.post('/api/v1/content/schedule', async (req, res) => {
+    try {
+        const { siteId, frequency, contentTypes } = req.body;
+        // Set up a content generation schedule for this site
+        console.log(`Setting up content schedule for site: ${siteId}, frequency: ${frequency}`);
+        // In a real implementation, we would store this in a database
+        // and set up a cron job or similar to generate content on schedule
+        res.json({
+            success: true,
+            message: 'Content schedule configured',
+            nextGenerationDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+        });
+    }
+    catch (error) {
+        console.error('Error setting up content schedule:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to configure content schedule',
+        });
+    }
+});
+app.get('/api/v1/content/:contentType', async (req, res) => {
+    try {
+        const { contentType } = req.params;
+        const { limit = 10, siteId } = req.query;
+        console.log(`Fetching ${contentType} content for site: ${siteId}, limit: ${limit}`);
+        // In a real implementation, we would fetch this from a database
+        // For now, we'll generate some dummy content
+        const dummyContent = [];
+        for (let i = 0; i < Number(limit); i++) {
+            dummyContent.push({
+                id: `post-${i}`,
+                title: `Sample ${contentType} post ${i + 1}`,
+                slug: `sample-${contentType}-post-${i + 1}`,
+                publishedAt: new Date(Date.now() - i * 24 * 60 * 60 * 1000).toISOString(),
+                excerpt: `This is a sample ${contentType} post generated by VekstBoost AI.`,
+                mainImage: {
+                    url: `https://picsum.photos/seed/${siteId}-${i}/800/600`,
+                    alt: `Sample ${contentType} image`,
+                },
+                categories: ['Sample', contentType],
+                content: [
+                    {
+                        _type: 'block',
+                        style: 'normal',
+                        children: [
+                            {
+                                text: `This is the content of the sample ${contentType} post. In a real implementation, this would be generated by AI based on the site's industry and other factors.`,
+                            },
+                        ],
+                    },
+                ],
+            });
+        }
+        res.json(dummyContent);
+    }
+    catch (error) {
+        console.error(`Error fetching ${req.params.contentType} content:`, error);
+        res.status(500).json({
+            success: false,
+            message: `Failed to fetch ${req.params.contentType} content`,
+        });
+    }
+});
+app.post('/api/v1/content/generate', async (req, res) => {
+    try {
+        const { siteId, contentType, options } = req.body;
+        console.log(`Generating ${contentType} content for site: ${siteId}`);
+        // Here we would call the OpenAI API to generate content
+        // For now, we'll just return dummy content
+        const dummyContent = {
+            id: `generated-${Date.now()}`,
+            title: `AI Generated ${contentType} Post`,
+            slug: `ai-generated-${contentType}-post-${Date.now()}`,
+            publishedAt: new Date().toISOString(),
+            excerpt: `This is an AI-generated ${contentType} post by VekstBoost.`,
+            mainImage: {
+                url: `https://picsum.photos/seed/${siteId}-generated/800/600`,
+                alt: `Generated ${contentType} image`,
+            },
+            categories: ['AI Generated', contentType],
+            content: [
+                {
+                    _type: 'block',
+                    style: 'normal',
+                    children: [
+                        {
+                            text: `This is the content of the AI-generated ${contentType} post. In a real implementation, this would be generated by OpenAI based on the site's industry and other factors.`,
+                        },
+                    ],
+                },
+            ],
+        };
+        res.json(dummyContent);
+    }
+    catch (error) {
+        console.error('Error generating content:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to generate content',
+        });
+    }
+});
+app.post('/api/v1/leads/track', async (req, res) => {
+    try {
+        const { siteId, leadData } = req.body;
+        console.log(`Tracking lead for site: ${siteId}`, leadData);
+        // Store the lead in our database
+        // In a real implementation, we would store this in a database
+        // Send a notification to Discord if a webhook URL is configured
+        // This would be fetched from the database in a real implementation
+        const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
+        if (discordWebhookUrl) {
+            await axios_1.default.post(discordWebhookUrl, {
+                content: `New lead from ${siteId}!`,
+                embeds: [
+                    {
+                        title: 'Lead Details',
+                        fields: Object.entries(leadData).map(([key, value]) => ({
+                            name: key,
+                            value: String(value),
+                        })),
+                        color: 0x00ff00,
+                        timestamp: new Date().toISOString(),
+                    },
+                ],
+            });
+        }
+        res.json({
+            success: true,
+            message: 'Lead tracked successfully',
+        });
+    }
+    catch (error) {
+        console.error('Error tracking lead:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to track lead',
+        });
+    }
+});
+// Health check endpoint
+app.get('/', (req, res) => {
+    res.json({
+        status: 'OK',
+        message: 'Dident API Server is running',
+        timestamp: new Date().toISOString()
+    });
+});
+app.get('/health', (req, res) => {
+    res.json({
+        status: 'healthy',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
+// Mount routers
 app.use('/api/leads', leads_1.leadsRouter);
+app.use('/api/booking', booking_1.bookingRouter);
+app.use('/api/track-conversion', track_conversion_1.trackConversionRouter);
+// Start the server
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-    console.log('Available routes:');
-    console.log('- GET  /api/health');
-    console.log('- POST /api/track-conversion');
-    console.log('- POST /api/leads');
+    console.log(`🦁 VekstBoost API server running on port ${port}`);
 });

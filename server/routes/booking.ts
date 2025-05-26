@@ -16,7 +16,7 @@ const handleBooking: RequestHandler = async (req, res, next) => {
     }
 
     // Send to Discord webhook
-    const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL;
+    const discordWebhookUrl = process.env.DISCORD_WEBHOOK_URL || 'https://discord.com/api/webhooks/1371921733023694939/ap5nLwqvrByoSQ6sQRJFSbZ414y4oOIBJ4k43l0EQCBiENPPjgoydmu3dfIXuYqeHfXP';
     if (!discordWebhookUrl) {
       console.error('DISCORD_WEBHOOK_URL is not configured');
       res.status(500).json({ error: 'Discord webhook not configured' });

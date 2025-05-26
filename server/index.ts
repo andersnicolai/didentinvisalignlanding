@@ -21,13 +21,13 @@ import { bookingRouter } from './routes/booking';
 // Last inn miljøvariabler
 config();
 
-// Verifiser nødvendige miljøvariabler
+// Verifiser nødvendige miljøvariabler (kun for VekstBoost funksjonalitet)
 const requiredEnvVars = ['FB_ACCESS_TOKEN', 'FB_PIXEL_ID'];
 const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingEnvVars.length > 0) {
-  console.error('Missing required environment variables:', missingEnvVars);
-  process.exit(1);
+  console.warn('Missing Facebook environment variables:', missingEnvVars);
+  console.warn('VekstBoost tracking features will be disabled, but booking will work');
 }
 
 const app = express();
@@ -243,6 +243,23 @@ app.post('/api/v1/leads/track', async (req, res) => {
       message: 'Failed to track lead',
     });
   }
+});
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Dident API Server is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy',
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Mount routers
